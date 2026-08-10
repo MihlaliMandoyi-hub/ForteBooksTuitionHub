@@ -1,0 +1,80 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ForteBooksTuitionHub.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title>Forte Books &amp; Tuition Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="Site.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="top-navbar">
+            <div class="brand">
+                <img src="Images/ufh-logo.png" alt="UFH Crest" />
+                Forte Books &amp; Tuition Hub
+            </div>
+            <div class="nav-links">
+                <a href="Default.aspx"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="About.aspx"><i class="fa-solid fa-circle-info"></i> About</a>
+
+                <% if (Session["Role"] != null && Session["Role"].ToString() == "Admin") { %>
+                    <a href="Students.aspx"><i class="fa-solid fa-user-graduate"></i> Students</a>
+                    <a href="Tutors.aspx"><i class="fa-solid fa-chalkboard-user"></i> Tutors</a>
+                    <a href="Sessions.aspx"><i class="fa-solid fa-calendar-check"></i> Sessions</a>
+                    <a href="Books.aspx"><i class="fa-solid fa-book"></i> Books</a>
+                    <a href="Payments.aspx"><i class="fa-solid fa-money-bill-wave"></i> Payments</a>
+                    <a href="Timesheets.aspx"><i class="fa-solid fa-clock"></i> Timesheets</a>
+                    <a href="ManageLogins.aspx"><i class="fa-solid fa-user-gear"></i> Manage Logins</a>
+                    <a href="TutorApprovals.aspx"><i class="fa-solid fa-user-check"></i> Tutor Approvals</a>
+                    <a href="ActivityLog.aspx"><i class="fa-solid fa-list-check"></i> Activity Log</a>
+                    <a href="TutorPayouts.aspx"><i class="fa-solid fa-hand-holding-dollar"></i> Tutor Payouts</a>
+                <% } %>
+
+                <% if (Session["Role"] != null && Session["Role"].ToString() == "Tutor") { %>
+                    <a href="Sessions.aspx"><i class="fa-solid fa-calendar-check"></i> My Sessions</a>
+                    <a href="MySchedule.aspx"><i class="fa-solid fa-calendar-week"></i> My Schedule</a>
+                    <a href="MyAvailability.aspx"><i class="fa-solid fa-calendar-days"></i> My Availability</a>
+                    <a href="Timesheets.aspx"><i class="fa-solid fa-clock"></i> My Timesheets</a>
+                    <a href="MyTutorProfile.aspx"><i class="fa-solid fa-id-badge"></i> My Profile</a>
+                    <%--<a href="TopUpBalance.aspx"><i class="fa-solid fa-wallet"></i> Top Up Balance</a>--%>
+                <% } %>
+
+                <% if (Session["Role"] != null && Session["Role"].ToString() == "Student") { %>
+                    <a href="Sessions.aspx"><i class="fa-solid fa-calendar-check"></i> My Sessions</a>
+                    <a href="MySchedule.aspx"><i class="fa-solid fa-calendar-week"></i> My Schedule</a>
+                    <a href="MyRentals.aspx"><i class="fa-solid fa-book"></i> My Book Rentals</a>
+                    <a href="BookCatalogue.aspx"><i class="fa-solid fa-book-open"></i> Book Catalogue</a>
+                    <a href="MyProfile.aspx"><i class="fa-solid fa-id-badge"></i> My Profile</a>
+                <% } %>
+
+                <% if (Session["Username"] != null) { %>
+                    <a href="Notifications.aspx" style="position:relative;">
+                        <i class="fa-solid fa-bell"></i>
+                        <asp:Panel ID="pnlNotificationBadge" runat="server" Visible="false" CssClass="notif-badge">
+                            <asp:Label ID="lblNotificationCount" runat="server"></asp:Label>
+                        </asp:Panel>
+                    </a>
+                    <span style="color:#8ED1FC; margin-left:5px;"><i class="fa-solid fa-circle-user"></i> Hi, <%: Session["Username"].ToString() %> (<%: Session["Role"].ToString() %>)</span>
+                    <a href="Logout.aspx"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                <% } else { %>
+                    <a href="Login.aspx"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                    <a href="Register.aspx"><i class="fa-solid fa-user-plus"></i> Register</a>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+        <div class="footer">
+            Forte Books &amp; Tuition Hub Management System &copy; <%: DateTime.Now.Year %> &nbsp;|&nbsp; <a href="About.aspx" style="color:#8ED1FC;">About &amp; Contact</a>
+        </div>
+    </form>
+</body>
+</html>

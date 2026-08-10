@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForteBooksTuitionHub", "ForteBooksTuitionHub\ForteBooksTuitionHub.csproj", "{8F5B7682-71FE-4C8B-AF9E-DF2BB1184F6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F5B7682-71FE-4C8B-AF9E-DF2BB1184F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F5B7682-71FE-4C8B-AF9E-DF2BB1184F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F5B7682-71FE-4C8B-AF9E-DF2BB1184F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F5B7682-71FE-4C8B-AF9E-DF2BB1184F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6998CE1-6973-4706-912D-67061CD68A4C}
+	EndGlobalSection
+EndGlobal
