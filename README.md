@@ -1,6 +1,6 @@
 Forte Books & Tuition Hub Management System 📚
 
-A full-stack web management system built for a tuition and book rental business — covering everything from student registration to fee collection, with role-based access for admins, tutors, and students.
+A full-stack web management system built for a tuition and book rental business covering everything from student registration to fee collection, with role-based access for admins, tutors, and students.
 
 🔗 Live demo: fortebooks.somee.com/Login
 
@@ -37,23 +37,40 @@ Screenshots
 
 
 Getting Started
+
 Prerequisites
+
 Visual Studio 2022 (with ASP.NET web development workload)
+
 .NET Framework (Web Forms)
+
 SQL Server Express (or full SQL Server)
+
 Installation
+
 bash
+
 git clone https://github.com/MihlaliMandoyi-hub/ForteBooksTuitionHub.git
+
 cd ForteBooksTuitionHub
+
 Open the solution in Visual Studio.
+
 Update the connection string in Web.config to point to your local SQL Server instance.
+
 Run the included SQL scripts (if provided) to set up the database schema.
+
 Build and run (F5) or publish via FTP to your own host, as done here with Somee.com.
 Roles & Access
+
 Role	Access
+
 Admin	Full access — manage students, tutors, payments, reports
+
 Tutor	View schedules, manage assigned students
+
 Student	View own records, rentals, and payments
+
 Why This Project
 
 Built to practice full-stack development on the .NET stack from database design in SQL Server through to a deployed, publicly accessible system - while solving a genuine small-business management problem with multiple user roles and real business logic (fines, payments, reporting).
