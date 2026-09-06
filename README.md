@@ -65,7 +65,7 @@ Roles & Access
 
 Role	Access
 
-Admin	Full access — manage students, tutors, payments, reports
+Admin	Full access - manage students, tutors, payments, reports
 
 Tutor	View schedules, manage assigned students
 
