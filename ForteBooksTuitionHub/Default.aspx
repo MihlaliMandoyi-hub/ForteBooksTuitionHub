@@ -8,7 +8,7 @@
     <asp:Panel ID="pnlAdminDashboard" runat="server" Visible="false">
         <p>Welcome back, Admin. Here's what's happening across the centre.</p>
 
-        <div style="display:flex; flex-wrap:wrap; gap:20px; margin-top:20px;">
+        <div class="admin-dashboard-grid">
 
             <asp:Panel ID="pnlPendingTutors" runat="server" Visible="false">
                 <div class="dash-card alert">
