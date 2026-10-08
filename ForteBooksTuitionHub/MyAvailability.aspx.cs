@@ -35,7 +35,7 @@ namespace ForteBooksTuitionHub
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(
-                    "SELECT AvailabilityId, DayOfWeek, StartTime, EndTime FROM TutorAvailability " +
+                    "SELECT AvailabilityId, DayOfWeek, StartTime, EndTime, Venue FROM TutorAvailability " +
                     "WHERE TutorId = @tutorId ORDER BY " +
                     "CASE DayOfWeek WHEN 'Monday' THEN 1 WHEN 'Tuesday' THEN 2 WHEN 'Wednesday' THEN 3 " +
                     "WHEN 'Thursday' THEN 4 WHEN 'Friday' THEN 5 WHEN 'Saturday' THEN 6 ELSE 7 END, StartTime", conn);
@@ -52,6 +52,8 @@ namespace ForteBooksTuitionHub
 
         protected void btnAdd_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid) return;
+
             TimeSpan startTime, endTime;
             bool validStart = TimeSpan.TryParse(txtStartTime.Text, out startTime);
             bool validEnd = TimeSpan.TryParse(txtEndTime.Text, out endTime);
@@ -71,18 +73,20 @@ namespace ForteBooksTuitionHub
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(
-                    "INSERT INTO TutorAvailability (TutorId, DayOfWeek, StartTime, EndTime) " +
-                    "VALUES (@tutorId, @day, @start, @end)", conn);
+                    "INSERT INTO TutorAvailability (TutorId, DayOfWeek, StartTime, EndTime, Venue) " +
+                    "VALUES (@tutorId, @day, @start, @end, @venue)", conn);
                 cmd.Parameters.AddWithValue("@tutorId", CurrentTutorId);
                 cmd.Parameters.AddWithValue("@day", ddlDay.SelectedValue);
                 cmd.Parameters.AddWithValue("@start", startTime);
                 cmd.Parameters.AddWithValue("@end", endTime);
+                cmd.Parameters.AddWithValue("@venue", txtVenue.Text.Trim());
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
 
             lblError.Text = "";
+            txtVenue.Text = "";
             BindAvailability();
         }
 

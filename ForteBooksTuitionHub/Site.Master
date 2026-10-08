@@ -1,80 +1,159 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ForteBooksTuitionHub.SiteMaster" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<%= ForteBooksTuitionHub.ThemeHelper.GetTheme(HttpContext.Current).ToLower() %>">
 <head runat="server">
     <meta charset="utf-8" />
     <title>Forte Books &amp; Tuition Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="Site.css" rel="stylesheet" />
+    <link href="Site.css?v=2" rel="stylesheet" />
     <asp:ContentPlaceHolder ID="head" runat="server" />
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="top-navbar">
-            <div class="brand">
-                <img src="Images/ufh-logo.png" alt="UFH Crest" />
-                Forte Books &amp; Tuition Hub
+        <div class="app-shell">
+
+            <div class="sidebar" id="sidebar" runat="server">
+
+                <div class="sidebar-links" style="padding-top:18px;">
+                    <% if (Session["Username"] != null) { %>
+                   <a href="Default.aspx" class="<%= NavClass("Default.aspx") %>"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+                   <% } else { %>
+                   <a href="Landing.aspx" class="<%= NavClass("Landing.aspx") %>"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+                   <% } %>
+                    <a href="About.aspx" class="<%= NavClass("About.aspx") %>"><i class="fa-solid fa-circle-info"></i> <span>About</span></a>
+
+                    <% if (Session["Role"] != null && Session["Role"].ToString() == "Admin") { %>
+                        <div class="sidebar-section-label">Records</div>
+                        <a href="Students.aspx" class="<%= NavClass("Students.aspx") %>"><i class="fa-solid fa-user-graduate"></i> <span>Students</span></a>
+                        <a href="Tutors.aspx" class="<%= NavClass("Tutors.aspx") %>"><i class="fa-solid fa-chalkboard-user"></i> <span>Tutors</span></a>
+                        <a href="Sessions.aspx" class="<%= NavClass("Sessions.aspx") %>"><i class="fa-solid fa-calendar-check"></i> <span>Sessions</span></a>
+                        <a href="Books.aspx" class="<%= NavClass("Books.aspx") %>"><i class="fa-solid fa-book"></i> <span>Books</span></a>
+
+                        <div class="sidebar-section-label">Finance</div>
+                        <a href="Payments.aspx" class="<%= NavClass("Payments.aspx") %>"><i class="fa-solid fa-money-bill-wave"></i> <span>Payments</span></a>
+                        <a href="TutorPayouts.aspx" class="<%= NavClass("TutorPayouts.aspx") %>"><i class="fa-solid fa-hand-holding-dollar"></i> <span>Tutor Payouts</span></a>
+
+                        <div class="sidebar-section-label">People &amp; Access</div>
+                        <a href="Timesheets.aspx" class="<%= NavClass("Timesheets.aspx") %>"><i class="fa-solid fa-clock"></i> <span>Timesheets</span></a>
+                        <a href="ManageLogins.aspx" class="<%= NavClass("ManageLogins.aspx") %>"><i class="fa-solid fa-user-gear"></i> <span>Manage Logins</span></a>
+                        <a href="TutorApprovals.aspx" class="<%= NavClass("TutorApprovals.aspx") %>"><i class="fa-solid fa-user-check"></i> <span>Tutor Approvals</span></a>
+                        <a href="ActivityLog.aspx" class="<%= NavClass("ActivityLog.aspx") %>"><i class="fa-solid fa-list-check"></i> <span>Activity Log</span></a>
+                    <% } %>
+
+                    <% if (Session["Role"] != null && Session["Role"].ToString() == "Tutor") { %>
+                        <div class="sidebar-section-label">My Work</div>
+                        <a href="Sessions.aspx" class="<%= NavClass("Sessions.aspx") %>"><i class="fa-solid fa-calendar-check"></i> <span>My Sessions</span></a>
+                        <a href="MySchedule.aspx" class="<%= NavClass("MySchedule.aspx") %>"><i class="fa-solid fa-calendar-week"></i> <span>My Schedule</span></a>
+                        <a href="MyAvailability.aspx" class="<%= NavClass("MyAvailability.aspx") %>"><i class="fa-solid fa-calendar-days"></i> <span>My Availability</span></a>
+                        <a href="Timesheets.aspx" class="<%= NavClass("Timesheets.aspx") %>"><i class="fa-solid fa-clock"></i> <span>My Timesheets</span></a>
+                        <a href="MyTutorProfile.aspx" class="<%= NavClass("MyTutorProfile.aspx") %>"><i class="fa-solid fa-id-badge"></i> <span>My Profile</span></a>
+                    <% } %>
+
+                    <% if (Session["Role"] != null && Session["Role"].ToString() == "Student") { %>
+                        <div class="sidebar-section-label">My Work</div>
+                        <a href="Sessions.aspx" class="<%= NavClass("Sessions.aspx") %>"><i class="fa-solid fa-calendar-check"></i> <span>My Sessions</span></a>
+                        <a href="MySchedule.aspx" class="<%= NavClass("MySchedule.aspx") %>"><i class="fa-solid fa-calendar-week"></i> <span>My Schedule</span></a>
+                        <a href="MyRentals.aspx" class="<%= NavClass("MyRentals.aspx") %>"><i class="fa-solid fa-book"></i> <span>My Book Rentals</span></a>
+                        <a href="BookCatalogue.aspx" class="<%= NavClass("BookCatalogue.aspx") %>"><i class="fa-solid fa-book-open"></i> <span>Book Catalogue</span></a>
+                        <a href="TopUpBalance.aspx" class="<%= NavClass("TopUpBalance.aspx") %>"><i class="fa-solid fa-wallet"></i> <span>Top Up Balance</span></a>
+                        <a href="MyProfile.aspx" class="<%= NavClass("MyProfile.aspx") %>"><i class="fa-solid fa-id-badge"></i> <span>My Profile</span></a>
+                    <% } %>
+
+                    <% if (Session["Username"] != null) { %>
+                        <div class="sidebar-section-label">Account</div>
+                        <a href="Settings.aspx" class="<%= NavClass("Settings.aspx") %>"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
+                        <a href="Logout.aspx"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
+                    <% } else { %>
+                        <div class="sidebar-section-label">Account</div>
+                        <a href="Login.aspx" class="<%= NavClass("Login.aspx") %>"><i class="fa-solid fa-right-to-bracket"></i> <span>Login</span></a>
+                        <a href="Register.aspx" class="<%= NavClass("Register.aspx") %>"><i class="fa-solid fa-user-plus"></i> <span>Register</span></a>
+                    <% } %>
+                </div>
+
+                <button type="button" class="sidebar-toggle" id="sidebarCollapseBtn">
+                    <i class="fa-solid fa-angles-left" id="collapseIcon"></i>
+                </button>
             </div>
-            <div class="nav-links">
-                <a href="Default.aspx"><i class="fa-solid fa-house"></i> Home</a>
-                <a href="About.aspx"><i class="fa-solid fa-circle-info"></i> About</a>
 
-                <% if (Session["Role"] != null && Session["Role"].ToString() == "Admin") { %>
-                    <a href="Students.aspx"><i class="fa-solid fa-user-graduate"></i> Students</a>
-                    <a href="Tutors.aspx"><i class="fa-solid fa-chalkboard-user"></i> Tutors</a>
-                    <a href="Sessions.aspx"><i class="fa-solid fa-calendar-check"></i> Sessions</a>
-                    <a href="Books.aspx"><i class="fa-solid fa-book"></i> Books</a>
-                    <a href="Payments.aspx"><i class="fa-solid fa-money-bill-wave"></i> Payments</a>
-                    <a href="Timesheets.aspx"><i class="fa-solid fa-clock"></i> Timesheets</a>
-                    <a href="ManageLogins.aspx"><i class="fa-solid fa-user-gear"></i> Manage Logins</a>
-                    <a href="TutorApprovals.aspx"><i class="fa-solid fa-user-check"></i> Tutor Approvals</a>
-                    <a href="ActivityLog.aspx"><i class="fa-solid fa-list-check"></i> Activity Log</a>
-                    <a href="TutorPayouts.aspx"><i class="fa-solid fa-hand-holding-dollar"></i> Tutor Payouts</a>
-                <% } %>
+            <div class="main-area">
+                <div class="top-header">
+                    <button type="button" class="mobile-toggle" id="mobileToggleBtn">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
 
-                <% if (Session["Role"] != null && Session["Role"].ToString() == "Tutor") { %>
-                    <a href="Sessions.aspx"><i class="fa-solid fa-calendar-check"></i> My Sessions</a>
-                    <a href="MySchedule.aspx"><i class="fa-solid fa-calendar-week"></i> My Schedule</a>
-                    <a href="MyAvailability.aspx"><i class="fa-solid fa-calendar-days"></i> My Availability</a>
-                    <a href="Timesheets.aspx"><i class="fa-solid fa-clock"></i> My Timesheets</a>
-                    <a href="MyTutorProfile.aspx"><i class="fa-solid fa-id-badge"></i> My Profile</a>
-                    <%--<a href="TopUpBalance.aspx"><i class="fa-solid fa-wallet"></i> Top Up Balance</a>--%>
-                <% } %>
+                    <div class="top-header-brand">
+                        <img src="Images/ufh-logo.png" alt="UFH Crest" />
+                        <span>Forte Books &amp; Tuition Hub</span>
+                    </div>
 
-                <% if (Session["Role"] != null && Session["Role"].ToString() == "Student") { %>
-                    <a href="Sessions.aspx"><i class="fa-solid fa-calendar-check"></i> My Sessions</a>
-                    <a href="MySchedule.aspx"><i class="fa-solid fa-calendar-week"></i> My Schedule</a>
-                    <a href="MyRentals.aspx"><i class="fa-solid fa-book"></i> My Book Rentals</a>
-                    <a href="BookCatalogue.aspx"><i class="fa-solid fa-book-open"></i> Book Catalogue</a>
-                    <a href="MyProfile.aspx"><i class="fa-solid fa-id-badge"></i> My Profile</a>
-                <% } %>
+                    <div class="top-header-actions">
+                        <% if (Session["Username"] != null) { %>
+                            <a href="Notifications.aspx">
+                                <i class="fa-solid fa-bell"></i>
+                                <asp:Panel ID="pnlNotificationBadge" runat="server" Visible="false" CssClass="notif-badge">
+                                    <asp:Label ID="lblNotificationCount" runat="server"></asp:Label>
+                                </asp:Panel>
+                            </a>
+                            <span class="username-chip"><i class="fa-solid fa-circle-user"></i> <%: Session["Username"].ToString() %> (<%: Session["Role"].ToString() %>)</span>
+                        <% } %>
+                    </div>
+                </div>
 
-                <% if (Session["Username"] != null) { %>
-                    <a href="Notifications.aspx" style="position:relative;">
-                        <i class="fa-solid fa-bell"></i>
-                        <asp:Panel ID="pnlNotificationBadge" runat="server" Visible="false" CssClass="notif-badge">
-                            <asp:Label ID="lblNotificationCount" runat="server"></asp:Label>
-                        </asp:Panel>
-                    </a>
-                    <span style="color:#8ED1FC; margin-left:5px;"><i class="fa-solid fa-circle-user"></i> Hi, <%: Session["Username"].ToString() %> (<%: Session["Role"].ToString() %>)</span>
-                    <a href="Logout.aspx"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                <% } else { %>
-                    <a href="Login.aspx"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                    <a href="Register.aspx"><i class="fa-solid fa-user-plus"></i> Register</a>
-                <% } %>
+                <div class="page-content">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                </div>
+
+                <div class="footer">
+                    Forte Books &amp; Tuition Hub Management System &copy; <%: DateTime.Now.Year %> &nbsp;|&nbsp; <a href="About.aspx" style="color:#8ED1FC;">About &amp; Contact</a>
+                </div>
             </div>
-        </div>
 
-        <div class="page-content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-        </div>
-
-        <div class="footer">
-            Forte Books &amp; Tuition Hub Management System &copy; <%: DateTime.Now.Year %> &nbsp;|&nbsp; <a href="About.aspx" style="color:#8ED1FC;">About &amp; Contact</a>
         </div>
     </form>
+
+    <script>
+
+        function togglePasswordVisibility(inputId, iconId) {
+            var input = document.getElementById(inputId);
+            var icon = document.getElementById(iconId);
+            if (!input || !icon) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('sidebarCollapseBtn').addEventListener('click', function () {
+            var sb = document.getElementById('<%= sidebar.ClientID %>');
+            sb.classList.toggle('collapsed');
+            var icon = document.getElementById('collapseIcon');
+            var collapsed = sb.classList.contains('collapsed');
+            icon.className = collapsed ? 'fa-solid fa-angles-right' : 'fa-solid fa-angles-left';
+            document.cookie = "ForteSidebar=" + (collapsed ? "Collapsed" : "Expanded") + ";path=/;max-age=31536000";
+        });
+
+        document.getElementById('mobileToggleBtn').addEventListener('click', function () {
+            var sb = document.getElementById('<%= sidebar.ClientID %>');
+            sb.classList.toggle('mobile-open');
+        });
+
+        (function () {
+            var match = document.cookie.match(/ForteSidebar=([^;]+)/);
+            if (match && match[1] === 'Collapsed') {
+                var sb = document.getElementById('<%= sidebar.ClientID %>');
+                sb.classList.add('collapsed');
+                document.getElementById('collapseIcon').className = 'fa-solid fa-angles-right';
+            }
+        })();
+    </script>
 </body>
 </html>

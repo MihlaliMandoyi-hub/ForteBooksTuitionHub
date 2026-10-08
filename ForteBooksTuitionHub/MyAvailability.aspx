@@ -2,8 +2,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>My Availability</h2>
-    <p>Set the days and times you are available for tutoring sessions.</p>
+    <h2><i class="fa-solid fa-calendar-days"></i> My Availability</h2>
+    <p>Set the days, times, and venue you are available for tutoring sessions.</p>
 
     <div class="form-box">
         <label>Day of Week</label>
@@ -23,6 +23,11 @@
         <label>End Time</label>
         <asp:TextBox ID="txtEndTime" runat="server" TextMode="Time"></asp:TextBox>
 
+        <label>Venue</label>
+        <asp:TextBox ID="txtVenue" runat="server" placeholder="e.g. Library Study Room 3, or Online (Zoom)"></asp:TextBox>
+        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtVenue"
+            ErrorMessage="Please specify a venue so students know where to go." CssClass="error-text" Display="Dynamic" />
+
         <br /><br />
         <asp:Button ID="btnAdd" runat="server" Text="Add Availability Slot" CssClass="btn btn-gold" OnClick="btnAdd_Click" />
         <br /><br />
@@ -36,6 +41,7 @@
             <asp:BoundField DataField="DayOfWeek" HeaderText="Day" />
             <asp:BoundField DataField="StartTime" HeaderText="Start Time" />
             <asp:BoundField DataField="EndTime" HeaderText="End Time" />
+            <asp:BoundField DataField="Venue" HeaderText="Venue" />
             <asp:TemplateField HeaderText="">
                 <ItemTemplate>
                     <asp:Button runat="server" Text="Remove" CommandName="DeleteSlot"

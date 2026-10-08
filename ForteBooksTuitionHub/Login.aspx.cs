@@ -44,7 +44,7 @@ namespace ForteBooksTuitionHub
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(
-                    "SELECT UserId, Role, StudentId, TutorId, Status FROM Users WHERE Username = @username AND Password = @password", conn);
+                    "SELECT UserId, Role, StudentId, TutorId, Status, Theme, DefaultLandingPage FROM Users WHERE Username = @username AND Password = @password", conn);
                 cmd.Parameters.AddWithValue("@username", username);
                 cmd.Parameters.AddWithValue("@password", hashedPassword);
 
@@ -73,7 +73,15 @@ namespace ForteBooksTuitionHub
                     Session["StudentId"] = reader["StudentId"] != DBNull.Value ? reader["StudentId"].ToString() : null;
                     Session["TutorId"] = reader["TutorId"] != DBNull.Value ? reader["TutorId"].ToString() : null;
 
-                    Response.Redirect("Default.aspx");
+                    string theme = reader["Theme"].ToString();
+                    string landingPage = reader["DefaultLandingPage"].ToString();
+                    if (string.IsNullOrWhiteSpace(landingPage)) landingPage = "Default.aspx";
+
+                    reader.Close();
+
+                    ThemeHelper.SetTheme(this.Context, theme);
+
+                    Response.Redirect(landingPage);
                 }
                 else
                 {

@@ -17,16 +17,46 @@ namespace ForteBooksTuitionHub
 
             if (!IsPostBack)
             {
-                BindBooks();
+                BindBooks(null, "TitleAsc");
             }
         }
 
-        private void BindBooks()
+        private void BindBooks(string search, string sortOption)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                SqlCommand cmd = new SqlCommand(
-                    "SELECT BookId, Title, Author, AvailableCopies, TotalCopies FROM Books ORDER BY Title", conn);
+                string sql = "SELECT BookId, Title, Author, ISBN, YearPublished, Edition, AvailableCopies, TotalCopies FROM Books WHERE 1=1";
+
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    sql += " AND (Title LIKE @search OR Author LIKE @search OR ISBN LIKE @search)";
+                }
+
+                switch (sortOption)
+                {
+                    case "TitleDesc":
+                        sql += " ORDER BY Title DESC";
+                        break;
+                    case "YearDesc":
+                        sql += " ORDER BY YearPublished DESC, Title ASC";
+                        break;
+                    case "YearAsc":
+                        sql += " ORDER BY YearPublished ASC, Title ASC";
+                        break;
+                    case "AvailDesc":
+                        sql += " ORDER BY AvailableCopies DESC, Title ASC";
+                        break;
+                    default: // TitleAsc
+                        sql += " ORDER BY Title ASC";
+                        break;
+                }
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    cmd.Parameters.AddWithValue("@search", "%" + search + "%");
+                }
+
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -34,6 +64,18 @@ namespace ForteBooksTuitionHub
                 gvBooks.DataSource = dt;
                 gvBooks.DataBind();
             }
+        }
+
+        protected void btnFilter_Click(object sender, EventArgs e)
+        {
+            BindBooks(txtSearch.Text.Trim(), ddlSort.SelectedValue);
+        }
+
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = "";
+            ddlSort.SelectedValue = "TitleAsc";
+            BindBooks(null, "TitleAsc");
         }
 
         protected void gvBooks_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -46,7 +88,6 @@ namespace ForteBooksTuitionHub
                 string role = Session["Role"] != null ? Session["Role"].ToString() : "";
                 int availableCopies = Convert.ToInt32(row["AvailableCopies"]);
 
-                // Only Students can rent for themselves; Admin is just browsing here
                 if (role != "Student")
                 {
                     btnRent.Visible = false;
@@ -72,7 +113,7 @@ namespace ForteBooksTuitionHub
             if (role != "Student" || Session["StudentId"] == null)
             {
                 lblError.Text = "Only students can rent books from this page.";
-                BindBooks();
+                BindBooks(txtSearch.Text.Trim(), ddlSort.SelectedValue);
                 return;
             }
 
@@ -83,7 +124,6 @@ namespace ForteBooksTuitionHub
             {
                 conn.Open();
 
-                // Business rule: can't rent the same book again while you already have an unreturned copy
                 SqlCommand duplicateCheck = new SqlCommand(
                     "SELECT COUNT(*) FROM BookRentals WHERE BookId = @bookId AND StudentId = @studentId AND ReturnDate IS NULL", conn);
                 duplicateCheck.Parameters.AddWithValue("@bookId", bookId);
@@ -93,11 +133,10 @@ namespace ForteBooksTuitionHub
                 if (alreadyHasOut > 0)
                 {
                     lblError.Text = "You already have a copy of this book out on loan.";
-                    BindBooks();
+                    BindBooks(txtSearch.Text.Trim(), ddlSort.SelectedValue);
                     return;
                 }
 
-                // Re-check availability at the moment of renting (in case it changed)
                 SqlCommand checkCmd = new SqlCommand("SELECT AvailableCopies, Title FROM Books WHERE BookId = @id", conn);
                 checkCmd.Parameters.AddWithValue("@id", bookId);
                 SqlDataReader reader = checkCmd.ExecuteReader();
@@ -114,7 +153,7 @@ namespace ForteBooksTuitionHub
                 if (available <= 0)
                 {
                     lblError.Text = "Sorry, no copies of this book are currently available.";
-                    BindBooks();
+                    BindBooks(txtSearch.Text.Trim(), ddlSort.SelectedValue);
                     return;
                 }
 
@@ -135,13 +174,13 @@ namespace ForteBooksTuitionHub
                 updateCmd.Parameters.AddWithValue("@id", bookId);
                 updateCmd.ExecuteNonQuery();
 
-                lblMessage.Text = "\"" + title + "\" has been rented to you. Due back on " + dueDate.ToString("yyyy-MM-dd") + ".";
                 string studentUsername = Session["Username"] != null ? Session["Username"].ToString() : "Student";
                 ActivityLogHelper.Log(studentUsername, "BookIssued", "\"" + title + "\" self-rented by student (StudentId " + studentId + ").");
 
+                lblMessage.Text = "\"" + title + "\" has been rented to you. Due back on " + dueDate.ToString("yyyy-MM-dd") + ".";
             }
 
-            BindBooks();
+            BindBooks(txtSearch.Text.Trim(), ddlSort.SelectedValue);
         }
     }
 }

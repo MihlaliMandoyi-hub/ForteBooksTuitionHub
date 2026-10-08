@@ -19,6 +19,14 @@ namespace ForteBooksTuitionHub
             }
         }
 
+        protected string NavClass(string pageFileName)
+        {
+            // Compare filenames WITHOUT extension, since Friendly URLs strips ".aspx" from the browser address bar
+            string currentPage = System.IO.Path.GetFileNameWithoutExtension(Request.Path);
+            string targetPage = System.IO.Path.GetFileNameWithoutExtension(pageFileName);
+            return string.Equals(currentPage, targetPage, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+        }
+
         private void LoadUnreadCount()
         {
             using (SqlConnection conn = new SqlConnection(connStr))

@@ -21,6 +21,9 @@
         <Columns>
             <asp:BoundField DataField="Title" HeaderText="Title" />
             <asp:BoundField DataField="Author" HeaderText="Author" />
+            <asp:BoundField DataField="ISBN" HeaderText="ISBN" />
+            <asp:BoundField DataField="YearPublished" HeaderText="Year" />
+            <asp:BoundField DataField="Edition" HeaderText="Edition" />
             <asp:BoundField DataField="TotalCopies" HeaderText="Total Copies" />
             <asp:BoundField DataField="AvailableCopies" HeaderText="Available" />
             <asp:TemplateField HeaderText="">

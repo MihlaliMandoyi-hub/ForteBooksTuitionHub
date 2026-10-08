@@ -20,7 +20,11 @@
                 <asp:TextBox ID="txtUsername" runat="server"></asp:TextBox>
 
                 <label>Password</label>
-                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
+                <div class="password-wrapper">
+                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
+                    <i class="fa-solid fa-eye password-toggle-icon" id="iconLoginPassword"
+                       onclick="togglePasswordVisibility('<%= txtPassword.ClientID %>', 'iconLoginPassword')"></i>
+                </div>
 
                 <br /><br />
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn btn-gold" OnClick="btnLogin_Click" />
@@ -28,6 +32,9 @@
 
                 <br /><br />
                 <a href="ForgotPassword.aspx"><i class="fa-solid fa-key"></i> Forgot your password?</a>
+
+                <br /><br />
+                <a href="Landing.aspx"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
 
                 <br /><br />
                 <asp:Label ID="lblError" runat="server" CssClass="error-text"></asp:Label>

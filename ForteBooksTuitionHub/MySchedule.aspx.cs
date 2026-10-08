@@ -45,7 +45,7 @@ namespace ForteBooksTuitionHub
                 DateTime day = weekStart.AddDays(i);
                 bool isToday = day.Date == DateTime.Today;
 
-                html.Append("<div style='flex:1; min-width:150px; background:#fff; border-radius:10px; box-shadow:var(--shadow); overflow:hidden;");
+                html.Append("<div style='flex:1; min-width:150px; background:var(--bg-card); border-radius:10px; box-shadow:var(--shadow); overflow:hidden;");
                 if (isToday) html.Append(" border:2px solid #FFC520;");
                 html.Append("'>");
 
@@ -69,6 +69,7 @@ namespace ForteBooksTuitionHub
                         TimeSpan end = (TimeSpan)row["EndTime"];
                         string otherParty = row["OtherPartyName"].ToString();
                         string status = row["Status"].ToString();
+                        string venue = row["Venue"].ToString();
 
                         string badgeColor = status == "Completed" ? "#DFF5E4" : status == "Cancelled" ? "#FBE0DE" : "#FFF1D6";
                         string textColor = status == "Completed" ? "#1B7A3D" : status == "Cancelled" ? "#C0392B" : "#B8760A";
@@ -76,6 +77,7 @@ namespace ForteBooksTuitionHub
                         html.Append("<div style='background:" + badgeColor + "; color:" + textColor + "; border-radius:6px; padding:6px 8px; margin-bottom:6px; font-size:12px;'>");
                         html.Append("<i class=\"fa-solid fa-clock\"></i> " + start.ToString(@"hh\:mm") + " - " + end.ToString(@"hh\:mm") + "<br/>");
                         html.Append("<i class=\"fa-solid fa-user\"></i> " + otherParty + "<br/>");
+                        html.Append("<i class=\"fa-solid fa-location-dot\"></i> " + venue + "<br/>");
                         html.Append("<strong>" + status + "</strong>");
                         html.Append("</div>");
                     }
@@ -99,7 +101,8 @@ namespace ForteBooksTuitionHub
 
                 if (isStudent)
                 {
-                    sql = @"SELECT s.SessionDate, s.StartTime, s.EndTime, s.Status, t.FullName AS OtherPartyName
+                    sql = @"SELECT s.SessionDate, s.StartTime, s.EndTime, s.Status, t.FullName AS OtherPartyName,
+                                   ISNULL(s.Venue, 'Not specified') AS Venue
                             FROM Sessions s
                             INNER JOIN Tutors t ON s.TutorId = t.TutorId
                             WHERE s.StudentId = @ownerId AND s.SessionDate BETWEEN @weekStart AND @weekEnd
@@ -109,7 +112,8 @@ namespace ForteBooksTuitionHub
                 }
                 else
                 {
-                    sql = @"SELECT s.SessionDate, s.StartTime, s.EndTime, s.Status, st.FullName AS OtherPartyName
+                    sql = @"SELECT s.SessionDate, s.StartTime, s.EndTime, s.Status, st.FullName AS OtherPartyName,
+                                   ISNULL(s.Venue, 'Not specified') AS Venue
                             FROM Sessions s
                             INNER JOIN Students st ON s.StudentId = st.StudentId
                             WHERE s.TutorId = @ownerId AND s.SessionDate BETWEEN @weekStart AND @weekEnd

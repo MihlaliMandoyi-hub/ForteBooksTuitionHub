@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><asp:Label ID="lblTitle" runat="server" Text="Add New Book"></asp:Label></h2>
+    <h2><i class="fa-solid fa-book"></i> <asp:Label ID="lblTitle" runat="server" Text="Add New Book"></asp:Label></h2>
 
     <div class="form-box">
         <asp:HiddenField ID="hfBookId" runat="server" Value="0" />
@@ -16,6 +16,21 @@
         <asp:TextBox ID="txtAuthor" runat="server" placeholder="e.g. J. Smith"></asp:TextBox>
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAuthor"
             ErrorMessage="Author is required." CssClass="error-text" Display="Dynamic" />
+
+        <label>ISBN <span style="font-weight:normal; text-transform:none;">(optional)</span></label>
+        <asp:TextBox ID="txtIsbn" runat="server" placeholder="e.g. 978-3-16-148410-0" MaxLength="20"></asp:TextBox>
+        <asp:RegularExpressionValidator runat="server" ControlToValidate="txtIsbn"
+            ValidationExpression="^[0-9Xx\-\s]{0,20}$"
+            ErrorMessage="ISBN can only contain numbers, dashes, and X." CssClass="error-text" Display="Dynamic" />
+
+        <label>Year of Publication <span style="font-weight:normal; text-transform:none;">(optional)</span></label>
+        <asp:TextBox ID="txtYear" runat="server" placeholder="e.g. 2021"></asp:TextBox>
+        <asp:RegularExpressionValidator runat="server" ControlToValidate="txtYear"
+            ValidationExpression="^(19|20)\d{2}$"
+            ErrorMessage="Enter a valid 4-digit year (e.g. 2021)." CssClass="error-text" Display="Dynamic" />
+
+        <label>Edition <span style="font-weight:normal; text-transform:none;">(optional)</span></label>
+        <asp:TextBox ID="txtEdition" runat="server" placeholder="e.g. 3rd Edition"></asp:TextBox>
 
         <label>Total Copies</label>
         <asp:TextBox ID="txtTotalCopies" runat="server" placeholder="e.g. 5"></asp:TextBox>

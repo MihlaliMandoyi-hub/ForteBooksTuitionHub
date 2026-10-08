@@ -38,6 +38,9 @@ namespace ForteBooksTuitionHub
                     txtTitle.Text = reader["Title"].ToString();
                     txtAuthor.Text = reader["Author"].ToString();
                     txtTotalCopies.Text = reader["TotalCopies"].ToString();
+                    txtIsbn.Text = reader["ISBN"] != DBNull.Value ? reader["ISBN"].ToString() : "";
+                    txtYear.Text = reader["YearPublished"] != DBNull.Value ? reader["YearPublished"].ToString() : "";
+                    txtEdition.Text = reader["Edition"] != DBNull.Value ? reader["Edition"].ToString() : "";
                 }
             }
         }
@@ -49,24 +52,33 @@ namespace ForteBooksTuitionHub
             int bookId = Convert.ToInt32(hfBookId.Value);
             int totalCopies = Convert.ToInt32(txtTotalCopies.Text.Trim());
 
+            string isbn = string.IsNullOrWhiteSpace(txtIsbn.Text) ? null : txtIsbn.Text.Trim();
+            string edition = string.IsNullOrWhiteSpace(txtEdition.Text) ? null : txtEdition.Text.Trim();
+            int? year = null;
+            if (!string.IsNullOrWhiteSpace(txtYear.Text))
+            {
+                year = Convert.ToInt32(txtYear.Text.Trim());
+            }
+
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();
 
                 if (bookId == 0)
                 {
-                    // New book: AvailableCopies starts equal to TotalCopies
                     SqlCommand cmd = new SqlCommand(
-                        "INSERT INTO Books (Title, Author, TotalCopies, AvailableCopies) " +
-                        "VALUES (@title, @author, @total, @total)", conn);
+                        "INSERT INTO Books (Title, Author, TotalCopies, AvailableCopies, ISBN, YearPublished, Edition) " +
+                        "VALUES (@title, @author, @total, @total, @isbn, @year, @edition)", conn);
                     cmd.Parameters.AddWithValue("@title", txtTitle.Text.Trim());
                     cmd.Parameters.AddWithValue("@author", txtAuthor.Text.Trim());
                     cmd.Parameters.AddWithValue("@total", totalCopies);
+                    cmd.Parameters.AddWithValue("@isbn", (object)isbn ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@year", (object)year ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@edition", (object)edition ?? DBNull.Value);
                     cmd.ExecuteNonQuery();
                 }
                 else
                 {
-                    // Editing: work out how many copies are currently out on loan
                     SqlCommand loanCmd = new SqlCommand(
                         "SELECT COUNT(*) FROM BookRentals WHERE BookId = @id AND ReturnDate IS NULL", conn);
                     loanCmd.Parameters.AddWithValue("@id", bookId);
@@ -81,12 +93,15 @@ namespace ForteBooksTuitionHub
                     int newAvailable = totalCopies - onLoan;
 
                     SqlCommand cmd = new SqlCommand(
-                        "UPDATE Books SET Title=@title, Author=@author, TotalCopies=@total, AvailableCopies=@available " +
-                        "WHERE BookId=@id", conn);
+                        "UPDATE Books SET Title=@title, Author=@author, TotalCopies=@total, AvailableCopies=@available, " +
+                        "ISBN=@isbn, YearPublished=@year, Edition=@edition WHERE BookId=@id", conn);
                     cmd.Parameters.AddWithValue("@title", txtTitle.Text.Trim());
                     cmd.Parameters.AddWithValue("@author", txtAuthor.Text.Trim());
                     cmd.Parameters.AddWithValue("@total", totalCopies);
                     cmd.Parameters.AddWithValue("@available", newAvailable);
+                    cmd.Parameters.AddWithValue("@isbn", (object)isbn ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@year", (object)year ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@edition", (object)edition ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@id", bookId);
                     cmd.ExecuteNonQuery();
                 }

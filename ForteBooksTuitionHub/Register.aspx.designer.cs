@@ -24,13 +24,22 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlForm;
 
         /// <summary>
-        /// rblRole control.
+        /// rbStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rblRole;
+        protected global::System.Web.UI.WebControls.RadioButton rbStudent;
+
+        /// <summary>
+        /// rbTutor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbTutor;
 
         /// <summary>
         /// pnlTutorNotice control.

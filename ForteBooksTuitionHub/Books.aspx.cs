@@ -23,10 +23,10 @@ namespace ForteBooksTuitionHub
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string sql = "SELECT BookId, Title, Author, TotalCopies, AvailableCopies FROM Books";
+                string sql = "SELECT BookId, Title, Author, ISBN, YearPublished, Edition, TotalCopies, AvailableCopies FROM Books";
                 if (!string.IsNullOrWhiteSpace(search))
                 {
-                    sql += " WHERE Title LIKE @search OR Author LIKE @search";
+                    sql += " WHERE Title LIKE @search OR Author LIKE @search OR ISBN LIKE @search";
                 }
                 sql += " ORDER BY Title";
 

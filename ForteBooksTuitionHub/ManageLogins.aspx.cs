@@ -25,7 +25,7 @@ namespace ForteBooksTuitionHub
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 string sql;
-                if (rblType.SelectedValue == "Tutor")
+                if (rbTutorType.Checked)
                 {
                     sql = @"SELECT TutorId AS Id, FullName FROM Tutors
                             WHERE TutorId NOT IN (SELECT TutorId FROM Users WHERE TutorId IS NOT NULL)
@@ -70,7 +70,7 @@ namespace ForteBooksTuitionHub
             }
         }
 
-        protected void rblType_SelectedIndexChanged(object sender, EventArgs e)
+        protected void rbType_CheckedChanged(object sender, EventArgs e)
         {
             BindPersonDropdown();
         }
@@ -89,7 +89,7 @@ namespace ForteBooksTuitionHub
 
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
-            string role = rblType.SelectedValue;
+            string role = rbTutorType.Checked ? "Tutor" : "Student";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {

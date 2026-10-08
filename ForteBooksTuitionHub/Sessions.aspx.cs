@@ -31,7 +31,8 @@ namespace ForteBooksTuitionHub
                 string role = Session["Role"] != null ? Session["Role"].ToString() : "";
 
                 string sql = @"SELECT s.SessionId, st.FullName AS StudentName, t.FullName AS TutorName,
-                               s.SessionDate, s.StartTime, s.EndTime, s.Status, s.Rating AS MyRating
+                               s.SessionDate, s.StartTime, s.EndTime, s.Status, s.Rating AS MyRating,
+                               ISNULL(s.Venue, 'Not specified') AS Venue
                                FROM Sessions s
                                INNER JOIN Students st ON s.StudentId = st.StudentId
                                INNER JOIN Tutors t ON s.TutorId = t.TutorId
@@ -100,6 +101,7 @@ namespace ForteBooksTuitionHub
                 Button btnComplete = (Button)e.Row.FindControl("btnComplete");
                 Label lblStars = (Label)e.Row.FindControl("lblStars");
                 HyperLink lnkRate = (HyperLink)e.Row.FindControl("lnkRate");
+                HyperLink lnkMessages = (HyperLink)e.Row.FindControl("lnkMessages");
 
                 string role = Session["Role"] != null ? Session["Role"].ToString() : "";
                 string status = row["Status"].ToString();
@@ -108,6 +110,7 @@ namespace ForteBooksTuitionHub
 
                 btnCancel.Visible = (role == "Admin" || role == "Student") && status == "Booked";
                 btnComplete.Visible = role == "Tutor" && status == "Booked" && sessionDate.Date <= DateTime.Today;
+                lnkMessages.NavigateUrl = "SessionMessages.aspx?sessionId=" + sessionId;
 
                 bool hasRating = row["MyRating"] != DBNull.Value;
 

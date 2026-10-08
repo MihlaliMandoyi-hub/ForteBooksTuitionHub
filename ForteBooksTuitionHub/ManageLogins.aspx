@@ -2,17 +2,34 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Manage Logins</h2>
+    <h2><i class="fa-solid fa-user-gear"></i> Manage Logins</h2>
     <p>Create a login account for a Student or Tutor so they can access their own portal.</p>
 
     <div class="form-box">
         <label>Account Type</label>
-        <asp:RadioButtonList ID="rblType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="rblType_SelectedIndexChanged" RepeatDirection="Horizontal">
-            <asp:ListItem Text="Student" Value="Student" Selected="True" />
-            <asp:ListItem Text="Tutor" Value="Tutor" />
-        </asp:RadioButtonList>
+        <div class="role-select">
+            <label class="role-card" id="cardStudentType">
+                <asp:RadioButton ID="rbStudentType" runat="server" GroupName="acctType" AutoPostBack="true"
+                    OnCheckedChanged="rbType_CheckedChanged" Checked="true" />
+                <div class="role-card-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                <div class="role-card-text">
+                    <div class="role-card-title">Student</div>
+                    <div class="role-card-desc">Create a login for a student record</div>
+                </div>
+            </label>
 
-        <label>Select Person (only those without an existing login are shown)</label>
+            <label class="role-card" id="cardTutorType">
+                <asp:RadioButton ID="rbTutorType" runat="server" GroupName="acctType" AutoPostBack="true"
+                    OnCheckedChanged="rbType_CheckedChanged" />
+                <div class="role-card-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <div class="role-card-text">
+                    <div class="role-card-title">Tutor</div>
+                    <div class="role-card-desc">Create a login for a tutor record</div>
+                </div>
+            </label>
+        </div>
+
+        <label style="margin-top:18px;">Select Person (only those without an existing login are shown)</label>
         <asp:DropDownList ID="ddlPerson" runat="server" style="padding:8px; width:100%;"
             DataTextField="FullName" DataValueField="Id" AppendDataBoundItems="true">
             <asp:ListItem Text="-- Select --" Value="0" />
@@ -45,5 +62,23 @@
         </Columns>
         <EmptyDataTemplate>No login accounts yet.</EmptyDataTemplate>
     </asp:GridView>
+
+    <script>
+        (function () {
+            var studentRadio = document.getElementById('<%= rbStudentType.ClientID %>');
+            var tutorRadio = document.getElementById('<%= rbTutorType.ClientID %>');
+            var studentCard = document.getElementById('cardStudentType');
+            var tutorCard = document.getElementById('cardTutorType');
+
+            function refresh() {
+                studentCard.classList.toggle('selected', studentRadio.checked);
+                tutorCard.classList.toggle('selected', tutorRadio.checked);
+            }
+
+            studentRadio.addEventListener('change', refresh);
+            tutorRadio.addEventListener('change', refresh);
+            refresh();
+        })();
+    </script>
 
 </asp:Content>

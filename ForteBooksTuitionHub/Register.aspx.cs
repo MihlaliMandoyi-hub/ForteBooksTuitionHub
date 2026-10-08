@@ -13,9 +13,9 @@ namespace ForteBooksTuitionHub
         {
         }
 
-        protected void rblRole_SelectedIndexChanged(object sender, EventArgs e)
+        protected void rbRole_CheckedChanged(object sender, EventArgs e)
         {
-            bool isTutor = rblRole.SelectedValue == "Tutor";
+            bool isTutor = rbTutor.Checked;
             pnlTutorFields.Visible = isTutor;
             pnlTutorNotice.Visible = isTutor;
         }
@@ -24,7 +24,7 @@ namespace ForteBooksTuitionHub
         {
             if (!Page.IsValid) return;
 
-            string role = rblRole.SelectedValue;
+            string role = rbTutor.Checked ? "Tutor" : "Student";
             string fullName = txtFullName.Text.Trim();
             string email = txtEmail.Text.Trim();
             string phone = txtPhone.Text.Trim();

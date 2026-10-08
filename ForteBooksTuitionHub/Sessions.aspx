@@ -38,6 +38,7 @@
             <asp:BoundField DataField="SessionDate" HeaderText="Date" DataFormatString="{0:yyyy-MM-dd}" />
             <asp:BoundField DataField="StartTime" HeaderText="Start" />
             <asp:BoundField DataField="EndTime" HeaderText="End" />
+            <asp:BoundField DataField="Venue" HeaderText="Venue" />
             <asp:BoundField DataField="Status" HeaderText="Status" />
             <asp:TemplateField HeaderText="Rating">
                 <ItemTemplate>
@@ -49,6 +50,9 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="">
                 <ItemTemplate>
+                    <asp:HyperLink ID="lnkMessages" runat="server" CssClass="btn">
+                        <i class="fa-solid fa-comments"></i> Messages
+                    </asp:HyperLink>
                     <asp:Button ID="btnComplete" runat="server" Text="Mark Completed" CommandName="CompleteSession"
                         CommandArgument='<%# Eval("SessionId") %>' CssClass="btn btn-gold" />
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CommandName="CancelSession"
