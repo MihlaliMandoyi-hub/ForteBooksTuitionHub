@@ -2,7 +2,21 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><i class="fa-solid fa-gauge"></i> Dashboard</h2>
+    <div class="dashboard-workspace">
+
+        </div>
+
+    <div class="management-page-header">
+    <div class="management-header-icon">
+        <i class="fa-solid fa-gauge" aria-hidden="true"></i>
+    </div>
+
+    <div>
+        <span class="management-eyebrow">Forte Books &amp; Tuition Hub</span>
+        <h2>Dashboard</h2>
+        <p>Your overview of activity, services and account information.</p>
+    </div>
+</div>
 
     <!-- ===================== ADMIN DASHBOARD ===================== -->
     <asp:Panel ID="pnlAdminDashboard" runat="server" Visible="false">
@@ -152,15 +166,73 @@
     <asp:Panel ID="pnlStudentDashboard" runat="server" Visible="false">
         <p>Welcome back! Here's where things stand for you.</p>
 
-        <asp:Panel ID="pnlBalanceCard" runat="server" CssClass="balance-banner balance-settled">
-            <div class="balance-banner-icon"><i class="fa-solid fa-wallet"></i></div>
-            <div>
-                <div class="balance-banner-label">Your Account Balance</div>
-                <div class="balance-banner-amount"><asp:Label ID="lblBalanceAmount" runat="server"></asp:Label></div>
-                <div class="balance-banner-meaning"><asp:Label ID="lblBalanceMeaning" runat="server"></asp:Label></div>
-                <a href="TopUpBalance.aspx" class="btn btn-gold" style="margin-top:8px; display:inline-block;"><i class="fa-solid fa-wallet"></i> Top Up Balance</a>
+        <asp:Panel ID="pnlBalanceCard" runat="server"
+    CssClass="balance-banner balance-settled">
+
+    <div class="student-balance-details">
+
+        <div class="balance-banner-icon">
+            <i class="fa-solid fa-wallet" aria-hidden="true"></i>
+        </div>
+
+        <div>
+            <div class="balance-banner-label">Your Account Balance</div>
+
+            <div class="balance-banner-amount">
+                <asp:Label ID="lblBalanceAmount" runat="server"></asp:Label>
             </div>
-        </asp:Panel>
+
+            <div class="balance-banner-meaning">
+                <asp:Label ID="lblBalanceMeaning" runat="server"></asp:Label>
+            </div>
+
+            <a href="TopUpBalance.aspx" class="btn btn-gold student-balance-topup">
+                <i class="fa-solid fa-wallet" aria-hidden="true"></i>
+                Top Up Balance
+            </a>
+        </div>
+
+    </div>
+
+    <div class="hub-student-card">
+
+        <div class="student-card-header">
+            <img src="Images/ufh-logo.png"
+                alt="University of Fort Hare crest" />
+
+            <div>
+                <strong>FORTE BOOKS</strong>
+                <span>&amp; Tuition Hub</span>
+            </div>
+
+            <span class="student-card-role">STUDENT</span>
+        </div>
+
+        <div class="student-card-person">
+            <div class="student-card-avatar">
+                <i class="fa-solid fa-user-graduate" aria-hidden="true"></i>
+            </div>
+
+            <div>
+                <span class="student-card-caption">ACCOUNT HOLDER</span>
+                <strong class="student-card-name">
+                    <%: Convert.ToString(Session["Username"]) %>
+                </strong>
+                <span class="student-card-description">Your learning hub account</span>
+            </div>
+        </div>
+
+        <div class="student-card-footer">
+            <span>InnovaTech Hub</span>
+            <a href="MyProfile.aspx">
+                View My Profile
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+    </div>
+
+</asp:Panel>
 
         <div style="display:flex; flex-wrap:wrap; gap:20px;">
 

@@ -15,6 +15,15 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
+        /// hfTutorId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfTutorId;
+
+        /// <summary>
         /// lblTutorName control.
         /// </summary>
         /// <remarks>
@@ -24,13 +33,13 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblTutorName;
 
         /// <summary>
-        /// hfTutorId control.
+        /// pnlSlotForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfTutorId;
+        protected global::System.Web.UI.WebControls.Panel pnlSlotForm;
 
         /// <summary>
         /// ddlDay control.
@@ -69,15 +78,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtVenue;
 
         /// <summary>
-        /// btnAdd control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAdd;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -85,6 +85,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAdd;
 
         /// <summary>
         /// gvAvailability control.

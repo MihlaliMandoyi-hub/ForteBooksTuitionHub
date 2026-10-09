@@ -33,6 +33,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.LinkButton btnDark;
 
         /// <summary>
+        /// lblLandingPageCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLandingPageCaption;
+
+        /// <summary>
         /// ddlLandingPage control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlLandingPage;
+
+        /// <summary>
+        /// lblNotificationsCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNotificationsCaption;
 
         /// <summary>
         /// chkNotifications control.
@@ -51,15 +69,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.CheckBox chkNotifications;
 
         /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
-
-        /// <summary>
         /// lblMessage control.
         /// </summary>
         /// <remarks>
@@ -67,5 +76,14 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMessage;
+
+        /// <summary>
+        /// btnSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSave;
     }
 }

@@ -15,6 +15,15 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
+        /// lblFromDateCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFromDateCaption;
+
+        /// <summary>
         /// txtFromDate control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFromDate;
+
+        /// <summary>
+        /// lblToDateCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblToDateCaption;
 
         /// <summary>
         /// txtToDate control.

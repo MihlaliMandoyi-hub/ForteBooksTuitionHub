@@ -69,6 +69,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblFineAmount;
 
         /// <summary>
+        /// lblMethodCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMethodCaption;
+
+        /// <summary>
         /// ddlMethod control.
         /// </summary>
         /// <remarks>
@@ -87,6 +96,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlCardFields;
 
         /// <summary>
+        /// lblCardNameCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCardNameCaption;
+
+        /// <summary>
         /// txtCardName control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCardName;
+
+        /// <summary>
+        /// lblCardNumberCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCardNumberCaption;
 
         /// <summary>
         /// txtCardNumber control.
@@ -105,6 +132,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtCardNumber;
 
         /// <summary>
+        /// lblExpiryCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExpiryCaption;
+
+        /// <summary>
         /// txtExpiry control.
         /// </summary>
         /// <remarks>
@@ -112,6 +148,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtExpiry;
+
+        /// <summary>
+        /// lblCvvCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCvvCaption;
 
         /// <summary>
         /// txtCvv control.
@@ -123,15 +168,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtCvv;
 
         /// <summary>
-        /// btnReview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReview;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -139,6 +175,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnReview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReview;
 
         /// <summary>
         /// pnlConfirm control.

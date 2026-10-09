@@ -15,6 +15,15 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
+        /// pnlLoginForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlLoginForm;
+
+        /// <summary>
         /// lblInfo control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblInfo;
+
+        /// <summary>
+        /// lblUsernameCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUsernameCaption;
 
         /// <summary>
         /// txtUsername control.
@@ -33,6 +51,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtUsername;
 
         /// <summary>
+        /// lblPasswordCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPasswordCaption;
+
+        /// <summary>
         /// txtPassword control.
         /// </summary>
         /// <remarks>
@@ -42,15 +69,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
         /// <summary>
-        /// btnLogin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogin;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -58,5 +76,14 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnLogin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLogin;
     }
 }

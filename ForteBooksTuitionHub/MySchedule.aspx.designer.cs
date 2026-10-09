@@ -15,15 +15,6 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
-        /// btnPrevWeek control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPrevWeek;
-
-        /// <summary>
         /// lblWeekRange control.
         /// </summary>
         /// <remarks>
@@ -33,13 +24,13 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblWeekRange;
 
         /// <summary>
-        /// btnNextWeek control.
+        /// btnPrevWeek control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNextWeek;
+        protected global::System.Web.UI.WebControls.Button btnPrevWeek;
 
         /// <summary>
         /// btnThisWeek control.
@@ -49,6 +40,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnThisWeek;
+
+        /// <summary>
+        /// btnNextWeek control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNextWeek;
 
         /// <summary>
         /// litSchedule control.

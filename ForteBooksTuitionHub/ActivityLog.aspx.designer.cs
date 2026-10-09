@@ -15,6 +15,15 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
+        /// lblFromDateCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFromDateCaption;
+
+        /// <summary>
         /// txtFromDate control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFromDate;
+
+        /// <summary>
+        /// lblToDateCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblToDateCaption;
 
         /// <summary>
         /// txtToDate control.
@@ -33,6 +51,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtToDate;
 
         /// <summary>
+        /// lblActionTypeCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblActionTypeCaption;
+
+        /// <summary>
         /// ddlActionType control.
         /// </summary>
         /// <remarks>
@@ -42,15 +69,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.DropDownList ddlActionType;
 
         /// <summary>
-        /// btnFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilter;
-
-        /// <summary>
         /// btnClear control.
         /// </summary>
         /// <remarks>
@@ -58,6 +76,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnClear;
+
+        /// <summary>
+        /// btnFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFilter;
 
         /// <summary>
         /// gvLog control.

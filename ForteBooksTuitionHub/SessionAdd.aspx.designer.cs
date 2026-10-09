@@ -24,6 +24,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlForm;
 
         /// <summary>
+        /// lblStudentCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStudentCaption;
+
+        /// <summary>
         /// ddlStudent control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlStudent;
+
+        /// <summary>
+        /// lblTutorCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTutorCaption;
 
         /// <summary>
         /// ddlTutor control.
@@ -87,6 +105,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblHourlyRatePreview;
 
         /// <summary>
+        /// lblSessionDateCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSessionDateCaption;
+
+        /// <summary>
         /// txtSessionDate control.
         /// </summary>
         /// <remarks>
@@ -96,6 +123,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtSessionDate;
 
         /// <summary>
+        /// lblStartTimeCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStartTimeCaption;
+
+        /// <summary>
         /// txtStartTime control.
         /// </summary>
         /// <remarks>
@@ -103,6 +139,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtStartTime;
+
+        /// <summary>
+        /// lblEndTimeCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEndTimeCaption;
 
         /// <summary>
         /// txtEndTime control.
@@ -186,6 +231,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblRequiredDeposit;
 
         /// <summary>
+        /// lblDepositCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDepositCaption;
+
+        /// <summary>
         /// txtDepositAmount control.
         /// </summary>
         /// <remarks>
@@ -213,6 +267,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlVoucherFields;
 
         /// <summary>
+        /// lblVoucherTypeCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblVoucherTypeCaption;
+
+        /// <summary>
         /// ddlVoucherType control.
         /// </summary>
         /// <remarks>
@@ -220,6 +283,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlVoucherType;
+
+        /// <summary>
+        /// lblVoucherCodeCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblVoucherCodeCaption;
 
         /// <summary>
         /// txtVoucherCode control.
@@ -240,6 +312,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlCardFields;
 
         /// <summary>
+        /// lblCardNameCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCardNameCaption;
+
+        /// <summary>
         /// txtCardName control.
         /// </summary>
         /// <remarks>
@@ -247,6 +328,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCardName;
+
+        /// <summary>
+        /// lblCardNumberCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCardNumberCaption;
 
         /// <summary>
         /// txtCardNumber control.
@@ -258,6 +348,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtCardNumber;
 
         /// <summary>
+        /// lblExpiryCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExpiryCaption;
+
+        /// <summary>
         /// txtExpiry control.
         /// </summary>
         /// <remarks>
@@ -265,6 +364,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtExpiry;
+
+        /// <summary>
+        /// lblCvvCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCvvCaption;
 
         /// <summary>
         /// txtCvv control.
@@ -276,15 +384,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtCvv;
 
         /// <summary>
-        /// btnReviewDeposit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReviewDeposit;
-
-        /// <summary>
         /// btnBackToDetails control.
         /// </summary>
         /// <remarks>
@@ -292,6 +391,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBackToDetails;
+
+        /// <summary>
+        /// btnReviewDeposit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReviewDeposit;
 
         /// <summary>
         /// lblPayError control.
@@ -357,6 +465,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblAdminRequiredDeposit;
 
         /// <summary>
+        /// lblAdminAmountCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAdminAmountCaption;
+
+        /// <summary>
         /// txtAdminAmount control.
         /// </summary>
         /// <remarks>
@@ -364,6 +481,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAdminAmount;
+
+        /// <summary>
+        /// lblAdminMethodCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAdminMethodCaption;
 
         /// <summary>
         /// ddlAdminMethod control.
@@ -375,15 +501,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.DropDownList ddlAdminMethod;
 
         /// <summary>
-        /// btnConfirmAdminBooking control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmAdminBooking;
-
-        /// <summary>
         /// btnAdminBackToDetails control.
         /// </summary>
         /// <remarks>
@@ -391,6 +508,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAdminBackToDetails;
+
+        /// <summary>
+        /// btnConfirmAdminBooking control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmAdminBooking;
 
         /// <summary>
         /// lblAdminPayError control.
@@ -438,15 +564,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblConfirmMethod2;
 
         /// <summary>
-        /// btnConfirmPay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmPay;
-
-        /// <summary>
         /// btnBackToPayment control.
         /// </summary>
         /// <remarks>
@@ -454,6 +571,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBackToPayment;
+
+        /// <summary>
+        /// btnConfirmPay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmPay;
 
         /// <summary>
         /// pnlConfirmation control.

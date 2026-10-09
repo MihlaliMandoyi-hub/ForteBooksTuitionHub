@@ -24,6 +24,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblTitle;
 
         /// <summary>
+        /// pnlTutorEditor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlTutorEditor;
+
+        /// <summary>
         /// hfTutorId control.
         /// </summary>
         /// <remarks>
@@ -78,15 +87,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtHourlyRate;
 
         /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -94,5 +94,14 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSave;
     }
 }

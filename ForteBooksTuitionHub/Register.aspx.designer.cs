@@ -150,15 +150,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtSecurityAnswer;
 
         /// <summary>
-        /// btnRegister control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRegister;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -166,6 +157,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnRegister control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRegister;
 
         /// <summary>
         /// pnlConfirmation control.
@@ -177,15 +177,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlConfirmation;
 
         /// <summary>
-        /// lblConfirmEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblConfirmEmail;
-
-        /// <summary>
         /// lblConfirmName control.
         /// </summary>
         /// <remarks>
@@ -193,6 +184,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblConfirmName;
+
+        /// <summary>
+        /// lblConfirmEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblConfirmEmail;
 
         /// <summary>
         /// lblConfirmRole control.

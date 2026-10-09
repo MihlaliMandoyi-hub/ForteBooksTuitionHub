@@ -2,47 +2,170 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><i class="fa-solid fa-comments"></i> Session Messages</h2>
+    <div class="messages-workspace">
 
-    <asp:Panel ID="pnlNotFound" runat="server" Visible="false">
-        <div class="error-text"><i class="fa-solid fa-circle-exclamation"></i> This session was not found or does not belong to you.</div>
-        <br />
-        <a href="Sessions.aspx" class="btn">Back to Sessions</a>
-    </asp:Panel>
+        <div class="management-page-header">
+            <div class="management-header-icon">
+                <i class="fa-solid fa-comments" aria-hidden="true"></i>
+            </div>
 
-    <asp:Panel ID="pnlThread" runat="server" Visible="false">
-        <div class="form-box" style="max-width:600px;">
-            <p><i class="fa-solid fa-user-graduate"></i> Student: <strong><asp:Label ID="lblStudentName" runat="server"></asp:Label></strong>
-               &nbsp;&nbsp; <i class="fa-solid fa-chalkboard-user"></i> Tutor: <strong><asp:Label ID="lblTutorName" runat="server"></asp:Label></strong></p>
-            <p><i class="fa-solid fa-calendar"></i> <asp:Label ID="lblSessionInfo" runat="server"></asp:Label>
-               &nbsp;&nbsp; <i class="fa-solid fa-location-dot"></i> <asp:Label ID="lblVenue" runat="server"></asp:Label></p>
+            <div>
+                <span class="management-eyebrow">
+                    Forte Books &amp; Tuition Hub
+                </span>
+                <h2>Session Messages</h2>
+                <p>Keep your session questions and arrangements together.</p>
+            </div>
         </div>
 
-        <div class="form-box" style="max-width:600px; margin-top:15px; max-height:400px; overflow-y:auto;">
-            <asp:Repeater ID="rptMessages" runat="server">
-                <ItemTemplate>
-                    <div style='margin-bottom:14px; padding:10px 14px; border-radius:10px; max-width:80%; <%# Eval("BubbleStyle") %>'>
-                        <div style="font-size:11px; font-weight:700; margin-bottom:3px; opacity:0.7;">
-                            <%# Eval("SenderLabel") %> &middot; <%# Eval("CreatedDate", "{0:yyyy-MM-dd HH:mm}") %>
-                        </div>
-                        <div style="font-size:14px;"><%# Eval("MessageText") %></div>
-                    </div>
-                </ItemTemplate>
-            </asp:Repeater>
+        <asp:Panel ID="pnlNotFound" runat="server"
+            Visible="false" CssClass="messages-not-found">
 
-            <asp:Label ID="lblNoMessages" runat="server" Visible="false" Text="No messages yet — start the conversation below." style="color:var(--text-muted); font-size:13px;"></asp:Label>
-        </div>
+            <div class="error-text" role="alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                This session was not found or does not belong to you.
+            </div>
 
-        <div class="form-box" style="max-width:600px; margin-top:15px;">
-            <label>Your Message</label>
-            <asp:TextBox ID="txtMessage" runat="server" TextMode="MultiLine" Rows="3" placeholder="Ask for directions, follow up on the lecture, or send a quick note..."></asp:TextBox>
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMessage"
-                ErrorMessage="Please enter a message." CssClass="error-text" Display="Dynamic" />
-
-            <br /><br />
-            <asp:Button ID="btnSend" runat="server" Text="Send Message" CssClass="btn btn-gold" OnClick="btnSend_Click" />
             <a href="Sessions.aspx" class="btn">Back to Sessions</a>
-        </div>
-    </asp:Panel>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlThread" runat="server" Visible="false">
+
+            <div class="messages-session-summary">
+                <div class="messages-person">
+                    <i class="fa-solid fa-user-graduate" aria-hidden="true"></i>
+                    <div>
+                        <span>Student</span>
+                        <strong>
+                            <asp:Label ID="lblStudentName" runat="server" />
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="messages-person">
+                    <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+                    <div>
+                        <span>Tutor</span>
+                        <strong>
+                            <asp:Label ID="lblTutorName" runat="server" />
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="messages-session-meta">
+                    <span>
+                        <i class="fa-solid fa-calendar"></i>
+                        <asp:Label ID="lblSessionInfo" runat="server" />
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <asp:Label ID="lblVenue" runat="server" />
+                    </span>
+                </div>
+            </div>
+
+            <div class="messages-body">
+
+                <div class="messages-conversation-heading">
+                    <h3>Conversation</h3>
+                    <a href="Sessions.aspx">Back to Sessions &raquo;</a>
+                </div>
+
+                <div class="messages-conversation" id="messageConversation"
+                    tabindex="0" role="region" aria-label="Session conversation">
+
+                    <asp:Repeater ID="rptMessages" runat="server">
+                        <ItemTemplate>
+                            <div class='<%# Eval("SenderLabel").ToString() == Convert.ToString(Session["Role"]) ? "message-bubble message-mine" : "message-bubble message-other" %>'>
+
+                                <div class="message-bubble-heading">
+                                    <strong><%#: Eval("SenderLabel") %></strong>
+                                    <time>
+                                        <%#: Eval("CreatedDate", "{0:yyyy-MM-dd HH:mm}") %>
+                                    </time>
+                                </div>
+
+                                <div class="message-bubble-text"><%# Eval("MessageText") %></div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+
+                    <asp:Label ID="lblNoMessages" runat="server"
+                        Visible="false"
+                        Text="No messages yet — start the conversation below."
+                        CssClass="messages-empty" />
+                </div>
+
+                <div class="messages-composer">
+                    <asp:Label ID="lblMessageCaption" runat="server"
+                        AssociatedControlID="txtMessage"
+                        Text="Your message" CssClass="messages-composer-label" />
+
+                    <div class="messages-quick-replies">
+                        <button type="button" data-quick-reply="Could you please confirm the meeting venue?">
+                            Confirm venue
+                        </button>
+
+                        <button type="button" data-quick-reply="What should I prepare before our session?">
+                            Ask about preparation
+                        </button>
+
+                        <button type="button" data-quick-reply="Thank you for the session!">
+                            Say thank you
+                        </button>
+                    </div>
+
+                    <asp:TextBox ID="txtMessage" runat="server"
+                        TextMode="MultiLine" Rows="4"
+                        placeholder="Ask for directions, follow up on the lecture, or send a quick note..." />
+
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtMessage"
+                        ErrorMessage="Please enter a message."
+                        CssClass="error-text" Display="Dynamic" />
+
+                    <div class="messages-send-bar">
+                        <span>Quick replies are editable before sending.</span>
+
+                        <asp:Button ID="btnSend" runat="server"
+                            Text="Send Message" CssClass="btn btn-gold"
+                            OnClick="btnSend_Click" />
+                    </div>
+                </div>
+
+            </div>
+        </asp:Panel>
+    </div>
+
+    <script>
+        (function () {
+            var messageBox = document.getElementById('<%= txtMessage.ClientID %>');
+            var conversation = document.getElementById('messageConversation');
+
+            document.querySelectorAll('.messages-quick-replies button')
+                .forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        if (!messageBox) return;
+
+                        var suggestion = button.getAttribute('data-quick-reply');
+
+                        messageBox.value = messageBox.value.trim()
+                            ? messageBox.value + '\n' + suggestion
+                            : suggestion;
+
+                        messageBox.focus();
+                        messageBox.setSelectionRange(
+                            messageBox.value.length,
+                            messageBox.value.length
+                        );
+                    });
+                });
+
+            if (conversation) {
+                conversation.scrollTop = conversation.scrollHeight;
+            }
+        })();
+    </script>
 
 </asp:Content>

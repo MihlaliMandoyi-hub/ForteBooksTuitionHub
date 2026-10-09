@@ -2,37 +2,130 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><i class="fa-solid fa-money-check-dollar"></i> Record Tutor Payout</h2>
+    <div class="payout-editor">
 
-    <asp:Panel ID="pnlNotFound" runat="server" Visible="false">
-        <div class="error-text"><i class="fa-solid fa-circle-exclamation"></i> Tutor not found.</div>
-        <br />
-        <a href="TutorPayouts.aspx" class="btn">Back to Tutor Payouts</a>
-    </asp:Panel>
+        <div class="management-page-header">
+            <div class="management-header-icon">
+                <i class="fa-solid fa-money-check-dollar"
+                    aria-hidden="true"></i>
+            </div>
 
-    <asp:Panel ID="pnlForm" runat="server" Visible="false">
-        <div class="form-box">
-            <p><i class="fa-solid fa-chalkboard-user"></i> Tutor: <strong><asp:Label ID="lblTutorName" runat="server"></asp:Label></strong></p>
-            <p><i class="fa-solid fa-scale-balanced"></i> Currently Owed: <strong>R<asp:Label ID="lblStillOwed" runat="server"></asp:Label></strong></p>
-
-            <label>Payout Amount (R)</label>
-            <asp:TextBox ID="txtAmount" runat="server"></asp:TextBox>
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAmount"
-                ErrorMessage="Amount is required." CssClass="error-text" Display="Dynamic" />
-            <asp:RegularExpressionValidator runat="server" ControlToValidate="txtAmount"
-                ValidationExpression="^\d+(\.\d{1,2})?$"
-                ErrorMessage="Enter a valid amount (e.g. 500 or 500.00)." CssClass="error-text" Display="Dynamic" />
-
-            <label>Notes (optional)</label>
-            <asp:TextBox ID="txtNotes" runat="server" TextMode="MultiLine" Rows="2" placeholder="e.g. EFT reference number"></asp:TextBox>
-
-            <br /><br />
-            <asp:Button ID="btnSave" runat="server" Text="Record Payout" CssClass="btn btn-gold" OnClick="btnSave_Click" />
-            <a href="TutorPayouts.aspx" class="btn">Cancel</a>
-
-            <br /><br />
-            <asp:Label ID="lblError" runat="server" CssClass="error-text"></asp:Label>
+            <div>
+                <span class="management-eyebrow">
+                    Forte Books &amp; Tuition Hub
+                </span>
+                <h2>Record Tutor Payout</h2>
+                <p>Review the tutor's balance and record a payment made to them.</p>
+            </div>
         </div>
-    </asp:Panel>
+
+        <asp:Panel ID="pnlNotFound" runat="server"
+            Visible="false" CssClass="payout-not-found">
+
+            <div class="error-text" role="alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Tutor not found.
+            </div>
+
+            <p>Return to Tutor Payouts and select a tutor's Record Payout button.</p>
+
+            <a href="TutorPayouts.aspx" class="btn">
+                Back to Tutor Payouts
+            </a>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlForm" runat="server" Visible="false">
+
+            <div class="payout-editor-body">
+
+                <div class="payout-summary-grid">
+                    <div class="payout-summary-card">
+                        <i class="fa-solid fa-chalkboard-user"
+                            aria-hidden="true"></i>
+
+                        <div>
+                            <span class="payout-summary-caption">Tutor</span>
+                            <strong>
+                                <asp:Label ID="lblTutorName" runat="server" />
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="payout-summary-card payout-summary-owed">
+                        <i class="fa-solid fa-scale-balanced"
+                            aria-hidden="true"></i>
+
+                        <div>
+                            <span class="payout-summary-caption">Currently owed</span>
+                            <strong>
+                                R<asp:Label ID="lblStillOwed" runat="server" />
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payout-form-section">
+                    <h3>Payout details</h3>
+                    <p class="payout-form-description">
+                        Enter the amount paid and an optional reference or note.
+                    </p>
+
+                    <div class="payout-form-grid">
+                        <div class="payout-field">
+                            <asp:Label ID="lblAmountCaption" runat="server"
+                                AssociatedControlID="txtAmount"
+                                Text="Payout amount (R) *" />
+
+                            <asp:TextBox ID="txtAmount" runat="server" />
+
+                            <asp:RequiredFieldValidator runat="server"
+                                ControlToValidate="txtAmount"
+                                ErrorMessage="Amount is required."
+                                CssClass="error-text" Display="Dynamic" />
+
+                            <asp:RegularExpressionValidator runat="server"
+                                ControlToValidate="txtAmount"
+                                ValidationExpression="^\d+(\.\d{1,2})?$"
+                                ErrorMessage="Enter a valid amount (e.g. 500 or 500.00)."
+                                CssClass="error-text" Display="Dynamic" />
+
+                            <span class="payout-field-hint">
+                                Use a full stop for decimals, for example 500.00.
+                            </span>
+                        </div>
+
+                        <div class="payout-field">
+                            <asp:Label ID="lblNotesCaption" runat="server"
+                                AssociatedControlID="txtNotes"
+                                Text="Notes (optional)" />
+
+                            <asp:TextBox ID="txtNotes" runat="server"
+                                TextMode="MultiLine" Rows="3"
+                                placeholder="e.g. EFT reference number" />
+                        </div>
+                    </div>
+                </div>
+
+                <asp:Label ID="lblError" runat="server"
+                    CssClass="error-text payout-editor-error"
+                    role="alert" />
+            </div>
+
+            <div class="payout-editor-actions">
+                <span>Check the tutor and amount before recording the payout.</span>
+
+                <div>
+                    <a href="TutorPayouts.aspx" class="btn payout-editor-cancel">
+                        Cancel
+                    </a>
+
+                    <asp:Button ID="btnSave" runat="server"
+                        Text="Record Payout" CssClass="btn btn-gold"
+                        OnClick="btnSave_Click" />
+                </div>
+            </div>
+
+        </asp:Panel>
+    </div>
 
 </asp:Content>

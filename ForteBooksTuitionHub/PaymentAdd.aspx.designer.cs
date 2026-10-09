@@ -24,6 +24,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Panel pnlForm;
 
         /// <summary>
+        /// lblStudentCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStudentCaption;
+
+        /// <summary>
         /// ddlStudent control.
         /// </summary>
         /// <remarks>
@@ -51,6 +60,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblBalance;
 
         /// <summary>
+        /// lblAmountCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAmountCaption;
+
+        /// <summary>
         /// txtAmount control.
         /// </summary>
         /// <remarks>
@@ -58,6 +76,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAmount;
+
+        /// <summary>
+        /// lblPaymentDateCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPaymentDateCaption;
 
         /// <summary>
         /// txtPaymentDate control.
@@ -69,6 +96,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtPaymentDate;
 
         /// <summary>
+        /// lblMethodCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMethodCaption;
+
+        /// <summary>
         /// ddlMethod control.
         /// </summary>
         /// <remarks>
@@ -76,6 +112,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlMethod;
+
+        /// <summary>
+        /// lblReasonCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblReasonCaption;
 
         /// <summary>
         /// ddlReason control.
@@ -87,15 +132,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.DropDownList ddlReason;
 
         /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -103,6 +139,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
         /// pnlConfirmation control.

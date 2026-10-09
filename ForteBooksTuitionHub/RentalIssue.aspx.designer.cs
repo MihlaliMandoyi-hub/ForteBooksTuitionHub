@@ -15,6 +15,15 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
+        /// lblBookCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblBookCaption;
+
+        /// <summary>
         /// ddlBook control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBook;
+
+        /// <summary>
+        /// lblStudentCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStudentCaption;
 
         /// <summary>
         /// ddlStudent control.
@@ -33,6 +51,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.DropDownList ddlStudent;
 
         /// <summary>
+        /// lblLoanDaysCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLoanDaysCaption;
+
+        /// <summary>
         /// txtLoanDays control.
         /// </summary>
         /// <remarks>
@@ -42,15 +69,6 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.TextBox txtLoanDays;
 
         /// <summary>
-        /// btnIssue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnIssue;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -58,5 +76,14 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// btnIssue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnIssue;
     }
 }

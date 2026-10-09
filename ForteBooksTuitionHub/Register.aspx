@@ -1,196 +1,417 @@
-﻿<%@ Page Title="Book Session" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SessionAdd.aspx.cs" Inherits="ForteBooksTuitionHub.SessionAdd" %>
+﻿<%@ Page Title="Create an Account" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="ForteBooksTuitionHub.Register" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <!-- ===================== STEP 1: BOOKING DETAILS ===================== -->
-    <asp:Panel ID="pnlForm" runat="server">
-        <h2><i class="fa-solid fa-calendar-plus"></i> Book New Session</h2>
+    <div class="hub-login hub-register">
 
-        <div class="form-box">
-            <label>Student</label>
-            <asp:DropDownList ID="ddlStudent" runat="server" style="padding:8px; width:100%;"
-                DataTextField="FullName" DataValueField="StudentId" AppendDataBoundItems="true">
-                <asp:ListItem Text="-- Select Student --" Value="0" />
-            </asp:DropDownList>
+        <section class="hub-login-welcome">
 
-            <label>Tutor</label>
-            <asp:DropDownList ID="ddlTutor" runat="server" style="padding:8px; width:100%;"
-                DataTextField="FullName" DataValueField="TutorId" AppendDataBoundItems="true"
-                AutoPostBack="true" OnSelectedIndexChanged="ddlTutor_SelectedIndexChanged">
-                <asp:ListItem Text="-- Select Tutor --" Value="0" />
-            </asp:DropDownList>
+            <img class="hub-login-logo"
+                src="Images/ufh-logo.png"
+                alt="University of Fort Hare" />
 
-            <asp:Panel ID="pnlTutorAvailability" runat="server" Visible="false">
-                <div class="tutor-rating-preview">
-                    <span class="stars"><asp:Label ID="lblTutorStars" runat="server"></asp:Label></span>
-                    <asp:Label ID="lblTutorRatingText" runat="server"></asp:Label>
+            <span class="hub-login-eyebrow">FORTE BOOKS &amp; TUITION HUB</span>
+            <h2>A new chapter.<br />Your next step.</h2>
+
+            <p class="hub-login-intro">
+                Join the hub as a student or apply as a tutor.
+                Bring your learning, books and session activity together.
+            </p>
+
+            <div class="hub-login-features">
+                <div>
+                    <span>
+                        <i class="fa-solid fa-user-graduate" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <strong>Here to learn?</strong>
+                        <p>Create a student account to access the hub.</p>
+                    </div>
                 </div>
 
-                <p style="margin-top:10px;"><strong><i class="fa-solid fa-calendar-days"></i> This tutor's availability &amp; venues:</strong></p>
-                <asp:Label ID="lblAvailability" runat="server" style="display:block; margin-bottom:10px;"></asp:Label>
-                <p style="font-size:13px; color:var(--text-muted);">
-                    <i class="fa-solid fa-circle-info"></i> Hourly rate: R<asp:Label ID="lblHourlyRatePreview" runat="server"></asp:Label>
-                    &mdash; a deposit of at least 50% will be required to confirm this booking.
-                </p>
-            </asp:Panel>
+                <div>
+                    <span>
+                        <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <strong>Here to teach?</strong>
+                        <p>Apply as a tutor. Administrator approval is required before sign-in.</p>
+                    </div>
+                </div>
 
-            <label>Session Date</label>
-            <asp:TextBox ID="txtSessionDate" runat="server" TextMode="Date"></asp:TextBox>
-
-            <label>Start Time</label>
-            <asp:TextBox ID="txtStartTime" runat="server" TextMode="Time"></asp:TextBox>
-
-            <label>End Time</label>
-            <asp:TextBox ID="txtEndTime" runat="server" TextMode="Time"></asp:TextBox>
-
-            <br /><br />
-            <asp:Button ID="btnContinue" runat="server" Text="Continue to Deposit Payment" CssClass="btn btn-gold" OnClick="btnContinue_Click" />
-            <a href="Sessions.aspx" class="btn">Cancel</a>
-
-            <br /><br />
-            <asp:Label ID="lblError" runat="server" CssClass="error-text"></asp:Label>
-        </div>
-    </asp:Panel>
-
-    <!-- ===================== STEP 2a: STUDENT DEPOSIT PAYMENT ===================== -->
-    <asp:Panel ID="pnlStudentPayment" runat="server" Visible="false">
-        <h2><i class="fa-solid fa-credit-card"></i> Pay Session Deposit</h2>
-
-        <div class="form-box" style="max-width:480px;">
-            <p><i class="fa-solid fa-chalkboard-user"></i> Tutor: <strong><asp:Label ID="lblPayTutorName" runat="server"></asp:Label></strong></p>
-            <p><i class="fa-solid fa-calendar"></i> Date: <asp:Label ID="lblPaySessionDate" runat="server"></asp:Label></p>
-            <p><i class="fa-solid fa-location-dot"></i> Venue: <strong><asp:Label ID="lblPayVenue" runat="server"></asp:Label></strong></p>
-            <p>Session Cost: R<asp:Label ID="lblSessionCost" runat="server"></asp:Label></p>
-            <p style="font-size:18px; font-weight:700; color:var(--ufh-navy);">
-                Minimum Deposit (50%): R<asp:Label ID="lblRequiredDeposit" runat="server"></asp:Label>
-            </p>
-
-            <label>Amount to Pay Now (R)</label>
-            <asp:TextBox ID="txtDepositAmount" runat="server"></asp:TextBox>
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDepositAmount"
-                ErrorMessage="Amount is required." CssClass="error-text" Display="Dynamic" ValidationGroup="Deposit" />
-            <asp:RegularExpressionValidator runat="server" ControlToValidate="txtDepositAmount"
-                ValidationExpression="^\d+(\.\d{1,2})?$"
-                ErrorMessage="Enter a valid amount (e.g. 100 or 100.00)." CssClass="error-text" Display="Dynamic" ValidationGroup="Deposit" />
-
-            <label>Payment Method</label>
-            <asp:RadioButtonList ID="rblMethod" runat="server" AutoPostBack="true"
-                OnSelectedIndexChanged="rblMethod_SelectedIndexChanged" RepeatDirection="Horizontal">
-                <asp:ListItem Text="Voucher" Value="Voucher" Selected="True" />
-                <asp:ListItem Text="Card" Value="Card" />
-            </asp:RadioButtonList>
-
-            <asp:Panel ID="pnlVoucherFields" runat="server" Visible="true">
-                <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
-                    <i class="fa-solid fa-shield-halved"></i> Demo voucher redemption — no real voucher balance is checked.
-                </p>
-                <label>Voucher Type</label>
-                <asp:DropDownList ID="ddlVoucherType" runat="server" style="padding:8px; width:100%;">
-                    <asp:ListItem Text="1Voucher" Value="1Voucher" />
-                    <asp:ListItem Text="OTT Voucher" Value="OTT Voucher" />
-                    <asp:ListItem Text="Blu Voucher" Value="Blu Voucher" />
-                </asp:DropDownList>
-                <label>Voucher Code</label>
-                <asp:TextBox ID="txtVoucherCode" runat="server" placeholder="e.g. 1234567890123456" MaxLength="16"></asp:TextBox>
-            </asp:Panel>
-
-            <asp:Panel ID="pnlCardFields" runat="server" Visible="false">
-                <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
-                    <i class="fa-solid fa-shield-halved"></i> Demo payment form — no real card is charged.
-                </p>
-                <label>Cardholder Name</label>
-                <asp:TextBox ID="txtCardName" runat="server" placeholder="e.g. T Mtshali"></asp:TextBox>
-                <label>Card Number</label>
-                <asp:TextBox ID="txtCardNumber" runat="server" placeholder="1234 5678 9012 3456" MaxLength="19"></asp:TextBox>
-                <label>Expiry (MM/YY)</label>
-                <asp:TextBox ID="txtExpiry" runat="server" placeholder="MM/YY" MaxLength="5"></asp:TextBox>
-                <label>CVV</label>
-                <asp:TextBox ID="txtCvv" runat="server" placeholder="123" MaxLength="3" TextMode="Password"></asp:TextBox>
-            </asp:Panel>
-
-            <br />
-            <asp:Button ID="btnReviewDeposit" runat="server" Text="Review Payment" CssClass="btn btn-gold" OnClick="btnReviewDeposit_Click" ValidationGroup="Deposit" />
-            <asp:Button ID="btnBackToDetails" runat="server" Text="Back" CssClass="btn" OnClick="btnBackToDetails_Click" CausesValidation="false" />
-
-            <br /><br />
-            <asp:Label ID="lblPayError" runat="server" CssClass="error-text"></asp:Label>
-        </div>
-    </asp:Panel>
-
-    <!-- ===================== STEP 2b: ADMIN DEPOSIT ENTRY ===================== -->
-    <asp:Panel ID="pnlAdminPayment" runat="server" Visible="false">
-        <h2><i class="fa-solid fa-cash-register"></i> Record Deposit &amp; Confirm Booking</h2>
-
-        <div class="form-box" style="max-width:480px;">
-            <p><i class="fa-solid fa-user-graduate"></i> Student: <strong><asp:Label ID="lblAdminStudentName" runat="server"></asp:Label></strong></p>
-            <p><i class="fa-solid fa-chalkboard-user"></i> Tutor: <strong><asp:Label ID="lblAdminTutorName" runat="server"></asp:Label></strong></p>
-            <p><i class="fa-solid fa-location-dot"></i> Venue: <strong><asp:Label ID="lblAdminVenue" runat="server"></asp:Label></strong></p>
-            <p>Session Cost: R<asp:Label ID="lblAdminSessionCost" runat="server"></asp:Label></p>
-            <p style="font-size:18px; font-weight:700; color:var(--ufh-navy);">
-                Minimum Deposit (50%): R<asp:Label ID="lblAdminRequiredDeposit" runat="server"></asp:Label>
-            </p>
-
-            <label>Amount Received (R)</label>
-            <asp:TextBox ID="txtAdminAmount" runat="server"></asp:TextBox>
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAdminAmount"
-                ErrorMessage="Amount is required." CssClass="error-text" Display="Dynamic" ValidationGroup="AdminDeposit" />
-            <asp:RegularExpressionValidator runat="server" ControlToValidate="txtAdminAmount"
-                ValidationExpression="^\d+(\.\d{1,2})?$"
-                ErrorMessage="Enter a valid amount (e.g. 100 or 100.00)." CssClass="error-text" Display="Dynamic" ValidationGroup="AdminDeposit" />
-
-            <label>Payment Method</label>
-            <asp:DropDownList ID="ddlAdminMethod" runat="server" style="padding:8px; width:100%;">
-                <asp:ListItem Text="Cash" Value="Cash" />
-                <asp:ListItem Text="Card" Value="Card" />
-                <asp:ListItem Text="EFT" Value="EFT" />
-            </asp:DropDownList>
-
-            <br /><br />
-            <asp:Button ID="btnConfirmAdminBooking" runat="server" Text="Confirm Deposit &amp; Book Session" CssClass="btn btn-gold" OnClick="btnConfirmAdminBooking_Click" ValidationGroup="AdminDeposit" />
-            <asp:Button ID="btnAdminBackToDetails" runat="server" Text="Back" CssClass="btn" OnClick="btnBackToDetails_Click" CausesValidation="false" />
-
-            <br /><br />
-            <asp:Label ID="lblAdminPayError" runat="server" CssClass="error-text"></asp:Label>
-        </div>
-    </asp:Panel>
-
-    <!-- ===================== STEP 3: REVIEW (Student path only) ===================== -->
-    <asp:Panel ID="pnlConfirm" runat="server" Visible="false">
-        <h2><i class="fa-solid fa-circle-question"></i> Confirm Deposit Payment</h2>
-        <div class="form-box" style="max-width:480px;">
-            <p><i class="fa-solid fa-chalkboard-user"></i> Tutor: <strong><asp:Label ID="lblConfirmTutor2" runat="server"></asp:Label></strong></p>
-            <p>Amount: <strong>R<asp:Label ID="lblConfirmAmount2" runat="server"></asp:Label></strong></p>
-            <p>Method: <asp:Label ID="lblConfirmMethod2" runat="server"></asp:Label></p>
-
-            <br />
-            <asp:Button ID="btnConfirmPay" runat="server" Text="Confirm &amp; Book Session" CssClass="btn btn-gold" OnClick="btnConfirmPay_Click" />
-            <asp:Button ID="btnBackToPayment" runat="server" Text="Go Back" CssClass="btn" OnClick="btnBackToPayment_Click" CausesValidation="false" />
-        </div>
-    </asp:Panel>
-
-    <!-- ===================== STEP 4: SUCCESS ===================== -->
-    <asp:Panel ID="pnlConfirmation" runat="server" Visible="false">
-        <h2><i class="fa-solid fa-envelope-circle-check"></i> Booking Confirmation</h2>
-
-        <div class="email-receipt">
-            <div class="email-receipt-header">
-                <div class="subject"><i class="fa-solid fa-calendar-check"></i> Your tutoring session is confirmed</div>
-                <div class="meta"><%: DateTime.Now.ToString("yyyy-MM-dd HH:mm") %></div>
+                <div>
+                    <span>
+                        <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <strong>Keep moving forward</strong>
+                        <p>Find support, explore books and organise your learning.</p>
+                    </div>
+                </div>
             </div>
-            <div class="email-receipt-body">
-                <div class="greeting">Session Booked Successfully</div>
 
-                <div class="email-receipt-row"><span class="label">Student</span><span class="value"><asp:Label ID="lblConfirmStudent" runat="server"></asp:Label></span></div>
-                <div class="email-receipt-row"><span class="label">Tutor</span><span class="value"><asp:Label ID="lblConfirmTutor" runat="server"></asp:Label></span></div>
-                <div class="email-receipt-row"><span class="label">Date</span><span class="value"><asp:Label ID="lblConfirmDate" runat="server"></asp:Label></span></div>
-                <div class="email-receipt-row"><span class="label">Time</span><span class="value"><asp:Label ID="lblConfirmTime" runat="server"></asp:Label></span></div>
-                <div class="email-receipt-row"><span class="label">Venue</span><span class="value"><asp:Label ID="lblConfirmVenue" runat="server"></asp:Label></span></div>
-                <div class="email-receipt-row"><span class="label">Deposit Paid</span><span class="value">R<asp:Label ID="lblConfirmDeposit" runat="server"></asp:Label></span></div>
-
-                <br />
-                <a href="Sessions.aspx" class="btn btn-gold"><i class="fa-solid fa-list"></i> View My Sessions</a>
+            <div class="hub-login-signature">
+                <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                <span>InnovaTech Hub</span>
             </div>
+
+        </section>
+
+        <div class="hub-register-main">
+
+            <asp:Panel ID="pnlForm" runat="server"
+                CssClass="hub-login-form"
+                DefaultButton="btnRegister">
+
+                <div class="hub-login-heading-icon">
+                    <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                </div>
+
+                <span class="hub-login-eyebrow">JOIN THE HUB</span>
+                <h2>Create your account</h2>
+                <p class="hub-login-form-intro">Fields marked * are required.</p>
+
+                <fieldset class="register-role">
+    <legend>Choose your account type</legend>
+
+    <div class="register-role-options">
+
+        <div class="register-choice">
+            <i class="fa-solid fa-user-graduate register-choice-icon"
+                aria-hidden="true"></i>
+
+            <asp:RadioButton ID="rbStudent" runat="server"
+                GroupName="RegistrationRole"
+                Text="Student"
+                Checked="true"
+                AutoPostBack="true"
+                CausesValidation="false"
+                OnCheckedChanged="rbRole_CheckedChanged" />
+
+            <span class="register-choice-caption">Learn &amp; discover</span>
         </div>
-    </asp:Panel>
+
+        <div class="register-choice">
+            <i class="fa-solid fa-chalkboard-user register-choice-icon"
+                aria-hidden="true"></i>
+
+            <asp:RadioButton ID="rbTutor" runat="server"
+                GroupName="RegistrationRole"
+                Text="Tutor"
+                AutoPostBack="true"
+                CausesValidation="false"
+                OnCheckedChanged="rbRole_CheckedChanged" />
+
+            <span class="register-choice-caption">Teach &amp; inspire</span>
+        </div>
+
+    </div>
+</fieldset>
+
+                <asp:Panel ID="pnlTutorNotice" runat="server"
+                    Visible="false" CssClass="register-pending-note">
+                    <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                    Tutor applications are reviewed by an administrator.
+                    You can sign in once your account is approved.
+                </asp:Panel>
+
+                <div class="register-section-heading">
+                    <span>01</span>
+                    <h3>Your details</h3>
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtFullName"
+                        Text="Full name *"></asp:Label>
+                    <asp:TextBox ID="txtFullName" runat="server"
+                        CssClass="hub-login-input"
+                        autocomplete="name"
+                        placeholder="Enter your full name"></asp:TextBox>
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtFullName"
+                        ErrorMessage="Full name is required."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtEmail"
+                        Text="Email address *"></asp:Label>
+                    <asp:TextBox ID="txtEmail" runat="server"
+                        CssClass="hub-login-input"
+                        TextMode="Email"
+                        autocomplete="email"
+                        placeholder="you@example.com"></asp:TextBox>
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtEmail"
+                        ErrorMessage="Email is required."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                    <asp:RegularExpressionValidator runat="server"
+                        ControlToValidate="txtEmail"
+                        ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+                        ErrorMessage="Enter a valid email address."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtPhone"
+                        Text="Phone number (optional)"></asp:Label>
+                    <asp:TextBox ID="txtPhone" runat="server"
+                        CssClass="hub-login-input"
+                        TextMode="Phone"
+                        autocomplete="tel"
+                        placeholder="Enter your contact number"></asp:TextBox>
+                </div>
+
+                <asp:Panel ID="pnlTutorFields" runat="server"
+                    Visible="false" CssClass="register-tutor-fields">
+
+                    <div class="hub-login-field">
+                        <asp:Label runat="server" AssociatedControlID="txtSubject"
+                            Text="Subject / specialty *"></asp:Label>
+                        <asp:TextBox ID="txtSubject" runat="server"
+                            CssClass="hub-login-input"
+                            placeholder="e.g. Mathematics"></asp:TextBox>
+                        <asp:RequiredFieldValidator runat="server"
+                            ControlToValidate="txtSubject"
+                            ErrorMessage="Enter your subject or specialty."
+                            CssClass="error-text" Display="Dynamic"
+                            ValidationGroup="Register" />
+                    </div>
+
+                    <div class="hub-login-field">
+                        <asp:Label runat="server" AssociatedControlID="txtHourlyRate"
+                            Text="Hourly rate (R, optional)"></asp:Label>
+                        <asp:TextBox ID="txtHourlyRate" runat="server"
+                            CssClass="hub-login-input"
+                            inputmode="decimal"
+                            placeholder="e.g. 100.00"></asp:TextBox>
+                        <asp:RegularExpressionValidator runat="server"
+                            ControlToValidate="txtHourlyRate"
+                            ValidationExpression="^\d+(\.\d{1,2})?$"
+                            ErrorMessage="Use an amount such as 100 or 100.00."
+                            CssClass="error-text" Display="Dynamic"
+                            ValidationGroup="Register" />
+                    </div>
+
+                </asp:Panel>
+
+                <div class="register-section-heading">
+                    <span>02</span>
+                    <h3>Sign-in details</h3>
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtUsername"
+                        Text="Username *"></asp:Label>
+                    <asp:TextBox ID="txtUsername" runat="server"
+                        CssClass="hub-login-input"
+                        autocomplete="username"
+                        autocapitalize="none"
+                        spellcheck="false"
+                        placeholder="Choose a username"></asp:TextBox>
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtUsername"
+                        ErrorMessage="Username is required."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtPassword"
+                        Text="Password *"></asp:Label>
+
+                    <div class="hub-login-password">
+                        <asp:TextBox ID="txtPassword" runat="server"
+                            CssClass="hub-login-input"
+                            TextMode="Password"
+                            autocomplete="new-password"
+                            placeholder="Choose a password"></asp:TextBox>
+
+                        <button type="button" id="registerPasswordToggle"
+                            class="hub-login-toggle"
+                            aria-label="Show passwords"
+                            aria-pressed="false"
+                            aria-controls="<%= txtPassword.ClientID %> <%= txtConfirmPassword.ClientID %>"
+                            hidden>
+                            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtPassword"
+                        ErrorMessage="Password is required."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtConfirmPassword"
+                        Text="Confirm password *"></asp:Label>
+                    <asp:TextBox ID="txtConfirmPassword" runat="server"
+                        CssClass="hub-login-input"
+                        TextMode="Password"
+                        autocomplete="new-password"
+                        placeholder="Re-enter your password"></asp:TextBox>
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtConfirmPassword"
+                        ErrorMessage="Confirm your password."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                    <asp:CompareValidator runat="server"
+                        ControlToValidate="txtConfirmPassword"
+                        ControlToCompare="txtPassword"
+                        ErrorMessage="The passwords do not match."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <div class="register-section-heading">
+                    <span>03</span>
+                    <h3>Account recovery</h3>
+                </div>
+
+                <p class="register-recovery-help">
+                    Your existing password reset process uses this question and answer.
+                    Choose an answer you can remember.
+                </p>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="ddlSecurityQuestion"
+                        Text="Security question *"></asp:Label>
+
+                    <asp:DropDownList ID="ddlSecurityQuestion" runat="server"
+                        CssClass="hub-login-input">
+                        <asp:ListItem Text="Choose a question" Value="" />
+                        <asp:ListItem Text="What was the name of your first pet?"
+                            Value="What was the name of your first pet?" />
+                        <asp:ListItem Text="What city were you born in?"
+                            Value="What city were you born in?" />
+                        <asp:ListItem Text="What was the name of your first school?"
+                            Value="What was the name of your first school?" />
+                    </asp:DropDownList>
+
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="ddlSecurityQuestion"
+                        InitialValue=""
+                        ErrorMessage="Choose a security question."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <div class="hub-login-field">
+                    <asp:Label runat="server" AssociatedControlID="txtSecurityAnswer"
+                        Text="Security answer *"></asp:Label>
+                    <asp:TextBox ID="txtSecurityAnswer" runat="server"
+                        CssClass="hub-login-input"
+                        autocomplete="off"
+                        placeholder="Enter your answer"></asp:TextBox>
+                    <asp:RequiredFieldValidator runat="server"
+                        ControlToValidate="txtSecurityAnswer"
+                        ErrorMessage="Security answer is required."
+                        CssClass="error-text" Display="Dynamic"
+                        ValidationGroup="Register" />
+                </div>
+
+                <asp:Label ID="lblError" runat="server"
+                    CssClass="hub-login-error" role="alert"></asp:Label>
+
+                <asp:Button ID="btnRegister" runat="server"
+                    Text="Create Account / Submit Application"
+                    CssClass="btn hub-login-submit"
+                    ValidationGroup="Register"
+                    OnClick="btnRegister_Click" />
+
+                <div class="hub-login-divider">
+                    <span>Already part of the hub?</span>
+                </div>
+
+                <a href="Login.aspx" class="btn hub-login-register">Sign In</a>
+                <a href="Landing.aspx" class="hub-login-home">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                    Back to Home
+                </a>
+
+            </asp:Panel>
+
+            <asp:Panel ID="pnlConfirmation" runat="server"
+                Visible="false" CssClass="register-confirmation">
+
+                <div class="register-confirm-icon">
+                    <i class="fa-solid fa-check" aria-hidden="true"></i>
+                </div>
+
+                <span class="hub-login-eyebrow">REGISTRATION SAVED</span>
+                <h2>Welcome to the hub</h2>
+                <p>Your details have been recorded successfully.</p>
+
+                <div class="register-confirm-details">
+                    <div>
+                        <span>Name</span>
+                        <strong><asp:Label ID="lblConfirmName" runat="server"></asp:Label></strong>
+                    </div>
+                    <div>
+                        <span>Email</span>
+                        <strong><asp:Label ID="lblConfirmEmail" runat="server"></asp:Label></strong>
+                    </div>
+                    <div>
+                        <span>Account type</span>
+                        <strong><asp:Label ID="lblConfirmRole" runat="server"></asp:Label></strong>
+                    </div>
+                    <div>
+                        <span>Username</span>
+                        <strong><asp:Label ID="lblConfirmUsername" runat="server"></asp:Label></strong>
+                    </div>
+                    <div>
+                        <span>Account status</span>
+                        <strong class='<%= rbTutor.Checked
+                            ? "register-status pending"
+                            : "register-status active" %>'>
+                            <asp:Label ID="lblConfirmStatus" runat="server"></asp:Label>
+                        </strong>
+                    </div>
+                </div>
+
+                <asp:Panel ID="pnlTutorPendingNotice" runat="server"
+                    Visible="false" CssClass="register-pending-note">
+                    <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                    Your tutor account is awaiting administrator approval.
+                    You will be able to sign in once approved.
+                </asp:Panel>
+
+                <a href="Login.aspx" class="btn hub-login-submit">
+                    Go to Sign In
+                </a>
+
+            </asp:Panel>
+
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var password = document.getElementById('<%= txtPassword.ClientID %>');
+            var confirmation = document.getElementById('<%= txtConfirmPassword.ClientID %>');
+            var toggle = document.getElementById('registerPasswordToggle');
+
+            if (!password || !confirmation || !toggle) return;
+
+            toggle.hidden = false;
+
+            toggle.addEventListener('click', function () {
+                var show = password.type === 'password';
+
+                password.type = show ? 'text' : 'password';
+                confirmation.type = show ? 'text' : 'password';
+
+                toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+                toggle.setAttribute('aria-label', show ? 'Hide passwords' : 'Show passwords');
+                toggle.querySelector('i').className =
+                    show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+            });
+        })();
+    </script>
 
 </asp:Content>

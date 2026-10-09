@@ -3,15 +3,29 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Web;
 
 namespace ForteBooksTuitionHub
 {
     public partial class BookImport : System.Web.UI.Page
     {
-        string connStr =
+        private readonly string connStr =
             ConfigurationManager.ConnectionStrings["ForteDb"].ConnectionString;
+
+        private const int MaxFileBytes = 2 * 1024 * 1024;
+
+        private sealed class ImportBook
+        {
+            public string Title;
+            public string Author;
+            public string ISBN;
+            public string Edition;
+            public int TotalCopies;
+            public int? YearPublished;
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -20,269 +34,518 @@ namespace ForteBooksTuitionHub
 
         protected void btnSample_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
+            DataTable table = new DataTable();
 
-            dt.Columns.Add("Title");
-            dt.Columns.Add("Author");
-            dt.Columns.Add("TotalCopies");
-            dt.Columns.Add("ISBN");
-            dt.Columns.Add("YearPublished");
-            dt.Columns.Add("Edition");
+            table.Columns.Add("Title");
+            table.Columns.Add("Author");
+            table.Columns.Add("TotalCopies");
+            table.Columns.Add("ISBN");
+            table.Columns.Add("YearPublished");
+            table.Columns.Add("Edition");
 
-            dt.Rows.Add(
+            table.Rows.Add(
                 "Introduction to Algebra",
                 "J. Smith",
                 "5",
                 "9783161484100",
                 "2019",
-                "2nd Edition"
-            );
+                "2nd Edition");
 
-            dt.Rows.Add(
+            table.Rows.Add(
                 "English Grammar Essentials",
                 "M. Naidoo",
                 "3",
-                "9781234567897",
+                "",
                 "2022",
-                "1st Edition"
-            );
+                "1st Edition");
 
             CsvExportHelper.ExportDataTable(
-                Response,
-                dt,
-                "SampleBookImport.csv"
-            );
+                Response, table, "SampleBookImport.csv");
         }
 
         protected void btnImport_Click(object sender, EventArgs e)
         {
             lblError.Text = "";
+            lblSummary.Text = "";
+            litSkipped.Text = "";
             pnlResults.Visible = false;
             pnlSkipped.Visible = false;
 
-            if (!fuCsv.HasFile)
+            if (Convert.ToString(Session["Role"]) != "Admin")
             {
-                lblError.Text = "Please choose a CSV file to upload.";
+                lblError.Text = "Only administrators can import books.";
                 return;
             }
 
-            int successCount = 0;
-            List<string> skippedRows = new List<string>();
-
-            using (StreamReader reader =
-                   new StreamReader(fuCsv.FileContent))
+            if (!fuCsv.HasFile)
             {
-                bool isFirstLine = true;
-                int lineNumber = 0;
+                lblError.Text = "Please choose a CSV file.";
+                return;
+            }
 
-                using (SqlConnection conn =
-                       new SqlConnection(connStr))
+            if (!string.Equals(
+                Path.GetExtension(fuCsv.FileName),
+                ".csv",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                lblError.Text = "Please upload a .csv file.";
+                return;
+            }
+
+            if (fuCsv.PostedFile.ContentLength > MaxFileBytes)
+            {
+                lblError.Text = "The CSV file must be no larger than 2 MB.";
+                return;
+            }
+
+            List<string[]> records;
+
+            try
+            {
+                // Strict UTF-8 decoding prevents silently damaged text.
+                using (StreamReader reader = new StreamReader(
+                    fuCsv.FileContent,
+                    new UTF8Encoding(false, true),
+                    false))
                 {
-                    conn.Open();
+                    records = ParseCsv(reader.ReadToEnd());
+                }
+            }
+            catch (FormatException ex)
+            {
+                lblError.Text = HttpUtility.HtmlEncode(ex.Message);
+                return;
+            }
+            catch (DecoderFallbackException)
+            {
+                lblError.Text =
+                    "The file is not valid UTF-8. Save it as CSV UTF-8 and try again.";
+                return;
+            }
 
-                    while (!reader.EndOfStream)
-                    {
-                        string line = reader.ReadLine();
-                        lineNumber++;
+            if (records.Count == 0 || IsBlankRecord(records[0]))
+            {
+                lblError.Text = "The file must begin with a column header row.";
+                return;
+            }
 
-                        if (isFirstLine)
-                        {
-                            isFirstLine = false;
-                            continue;
-                        }
+            string[] headers = records[0];
 
-                        if (string.IsNullOrWhiteSpace(line))
-                            continue;
+            Dictionary<string, int> columns =
+                new Dictionary<string, int>(
+                    StringComparer.OrdinalIgnoreCase);
 
-                        string[] parts = line.Split(',');
+            for (int i = 0; i < headers.Length; i++)
+            {
+                string name = NormaliseHeader(headers[i]);
 
-                        if (parts.Length < 6)
-                        {
-                            skippedRows.Add(
-                                "Line " + lineNumber +
-                                ": expected 6 columns " +
-                                "(Title, Author, TotalCopies, ISBN, YearPublished, Edition)."
-                            );
+                if (!IsSupportedHeader(name))
+                {
+                    lblError.Text =
+                        "Unrecognised header: " +
+                        HttpUtility.HtmlEncode(headers[i]) +
+                        ". Use the sample CSV headings.";
+                    return;
+                }
 
-                            continue;
-                        }
+                if (columns.ContainsKey(name))
+                {
+                    lblError.Text =
+                        "Duplicate column header: " +
+                        HttpUtility.HtmlEncode(headers[i]) + ".";
+                    return;
+                }
 
-                        string title =
-                            parts[0].Trim();
+                columns.Add(name, i);
+            }
 
-                        string author =
-                            parts[1].Trim();
+            string[] required = { "title", "author", "totalcopies" };
 
-                        string copiesText =
-                            parts[2].Trim();
-
-                        string isbn =
-                            parts[3].Trim();
-
-                        string yearText =
-                            parts[4].Trim();
-
-                        string edition =
-                            parts[5].Trim();
-
-                        int totalCopies;
-
-                        if (
-                            string.IsNullOrWhiteSpace(title) ||
-                            string.IsNullOrWhiteSpace(author) ||
-                            !int.TryParse(copiesText, out totalCopies) ||
-                            totalCopies <= 0
-                        )
-                        {
-                            skippedRows.Add(
-                                "Line " + lineNumber +
-                                ": invalid title, author, or copy count."
-                            );
-
-                            continue;
-                        }
-
-                        int? year = null;
-
-                        if (!string.IsNullOrWhiteSpace(yearText))
-                        {
-                            int parsedYear;
-
-                            if (
-                                int.TryParse(
-                                    yearText,
-                                    out parsedYear
-                                ) &&
-                                parsedYear >= 1900 &&
-                                parsedYear <= DateTime.Today.Year
-                            )
-                            {
-                                year = parsedYear;
-                            }
-                        }
-
-                        try
-                        {
-                            SqlCommand cmd =
-                                new SqlCommand(
-                                    @"INSERT INTO Books
-                                    (
-                                        Title,
-                                        Author,
-                                        TotalCopies,
-                                        AvailableCopies,
-                                        ISBN,
-                                        YearPublished,
-                                        Edition
-                                    )
-                                    VALUES
-                                    (
-                                        @title,
-                                        @author,
-                                        @total,
-                                        @available,
-                                        @isbn,
-                                        @year,
-                                        @edition
-                                    )",
-                                    conn
-                                );
-
-                            cmd.Parameters.AddWithValue(
-                                "@title",
-                                title
-                            );
-
-                            cmd.Parameters.AddWithValue(
-                                "@author",
-                                author
-                            );
-
-                            cmd.Parameters.AddWithValue(
-                                "@total",
-                                totalCopies
-                            );
-
-                            // All newly imported books start as available
-                            cmd.Parameters.AddWithValue(
-                                "@available",
-                                totalCopies
-                            );
-
-                            cmd.Parameters.AddWithValue(
-                                "@isbn",
-                                string.IsNullOrWhiteSpace(isbn)
-                                    ? (object)DBNull.Value
-                                    : isbn
-                            );
-
-                            cmd.Parameters.AddWithValue(
-                                "@year",
-                                (object)year ?? DBNull.Value
-                            );
-
-                            cmd.Parameters.AddWithValue(
-                                "@edition",
-                                string.IsNullOrWhiteSpace(edition)
-                                    ? (object)DBNull.Value
-                                    : edition
-                            );
-
-                            cmd.ExecuteNonQuery();
-
-                            successCount++;
-                        }
-                        catch (Exception ex)
-                        {
-                            skippedRows.Add(
-                                "Line " + lineNumber +
-                                ": database error - " +
-                                ex.Message
-                            );
-                        }
-                    }
+            foreach (string name in required)
+            {
+                if (!columns.ContainsKey(name))
+                {
+                    lblError.Text =
+                        "Missing required column: " + name + ".";
+                    return;
                 }
             }
 
-            string adminUsername =
-                Session["Username"] != null
-                    ? Session["Username"].ToString()
-                    : "Admin";
+            List<ImportBook> books = new List<ImportBook>();
+            List<string> errors = new List<string>();
 
-            ActivityLogHelper.Log(
-                adminUsername,
-                "BookImport",
-                successCount +
-                " book(s) imported via CSV, " +
-                skippedRows.Count +
-                " row(s) skipped."
-            );
+            for (int i = 1; i < records.Count; i++)
+            {
+                string[] record = records[i];
+
+                if (IsBlankRecord(record))
+                {
+                    continue;
+                }
+
+                string rowLabel = "CSV record " + (i + 1) + ": ";
+
+                if (record.Length != headers.Length)
+                {
+                    errors.Add(
+                        rowLabel + "contains " + record.Length +
+                        " fields, but the header has " + headers.Length +
+                        ". Put values containing commas inside double quotes.");
+                    continue;
+                }
+
+                string title = Field(record, columns, "title");
+                string author = Field(record, columns, "author");
+                string copiesText = Field(record, columns, "totalcopies");
+                string yearText = Field(record, columns, "yearpublished");
+
+                int copies;
+                int parsedYear;
+                int? year = null;
+
+                if (string.IsNullOrWhiteSpace(title))
+                {
+                    errors.Add(rowLabel + "Title is required.");
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(author))
+                {
+                    errors.Add(rowLabel + "Author is required.");
+                    continue;
+                }
+
+                if (!int.TryParse(
+                    copiesText,
+                    NumberStyles.None,
+                    CultureInfo.InvariantCulture,
+                    out copies) || copies <= 0)
+                {
+                    errors.Add(
+                        rowLabel + "TotalCopies must be a positive whole number.");
+                    continue;
+                }
+
+                if (!string.IsNullOrWhiteSpace(yearText))
+                {
+                    if (!int.TryParse(
+                        yearText,
+                        NumberStyles.None,
+                        CultureInfo.InvariantCulture,
+                        out parsedYear) ||
+                        parsedYear < 1 || parsedYear > 9999)
+                    {
+                        errors.Add(
+                            rowLabel +
+                            "YearPublished must be a year from 1 to 9999, or blank.");
+                        continue;
+                    }
+
+                    year = parsedYear;
+                }
+
+                books.Add(new ImportBook
+                {
+                    Title = title,
+                    Author = author,
+                    TotalCopies = copies,
+                    ISBN = Field(record, columns, "isbn"),
+                    YearPublished = year,
+                    Edition = Field(record, columns, "edition")
+                });
+            }
+
+            if (errors.Count > 0)
+            {
+                ShowValidationErrors(errors);
+                return;
+            }
+
+            if (books.Count == 0)
+            {
+                lblError.Text = "The file contains no book records to import.";
+                return;
+            }
+
+            try
+            {
+                SaveBooks(books);
+            }
+            catch (Exception ex)
+            {
+                Trace.Warn("BookImport", "Import transaction failed.", ex);
+
+                lblError.Text =
+                    "The import could not be saved. No books were imported. " +
+                    "Check field lengths and database requirements, then try again.";
+                return;
+            }
 
             lblSummary.Text =
-                successCount +
-                " book(s) imported successfully. " +
-                skippedRows.Count +
-                " row(s) skipped.";
+                books.Count + " book record(s) imported successfully. " +
+                "Available copies were set to each book's TotalCopies.";
 
             pnlResults.Visible = true;
 
-            if (skippedRows.Count > 0)
+            // A logging failure must not report the committed import as failed.
+            try
             {
-                StringBuilder sb =
-                    new StringBuilder();
+                ActivityLogHelper.Log(
+                    Convert.ToString(Session["Username"]),
+                    "BookImport",
+                    books.Count + " book record(s) imported via validated CSV.");
+            }
+            catch (Exception ex)
+            {
+                Trace.Warn("BookImport", "Import audit logging failed.", ex);
+            }
+        }
 
-                foreach (string s in skippedRows)
+        private void SaveBooks(List<ImportBook> books)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+
+                using (SqlTransaction transaction = conn.BeginTransaction())
                 {
-                    sb.Append(
-                        "<p style='font-size:13px; color:#c0392b;'>" +
-                        System.Web.HttpUtility.HtmlEncode(s) +
-                        "</p>"
-                    );
+                    foreach (ImportBook book in books)
+                    {
+                        using (SqlCommand cmd = new SqlCommand(@"
+                            INSERT INTO Books
+                            (
+                                Title, Author, TotalCopies, AvailableCopies,
+                                ISBN, YearPublished, Edition
+                            )
+                            VALUES
+                            (
+                                @title, @author, @total, @available,
+                                @isbn, @year, @edition
+                            )", conn, transaction))
+                        {
+                            cmd.Parameters.Add("@title", SqlDbType.NVarChar, -1)
+                                .Value = book.Title;
+
+                            cmd.Parameters.Add("@author", SqlDbType.NVarChar, -1)
+                                .Value = book.Author;
+
+                            cmd.Parameters.Add("@total", SqlDbType.Int)
+                                .Value = book.TotalCopies;
+
+                            cmd.Parameters.Add("@available", SqlDbType.Int)
+                                .Value = book.TotalCopies;
+
+                            cmd.Parameters.Add("@isbn", SqlDbType.NVarChar, -1)
+                                .Value = DbText(book.ISBN);
+
+                            cmd.Parameters.Add("@year", SqlDbType.Int)
+                                .Value = book.YearPublished.HasValue
+                                    ? (object)book.YearPublished.Value
+                                    : DBNull.Value;
+
+                            cmd.Parameters.Add("@edition", SqlDbType.NVarChar, -1)
+                                .Value = DbText(book.Edition);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
+        private static object DbText(string value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? (object)DBNull.Value
+                : value;
+        }
+
+        private static string Field(
+            string[] record,
+            Dictionary<string, int> columns,
+            string name)
+        {
+            int index;
+
+            return columns.TryGetValue(name, out index)
+                ? record[index].Trim()
+                : "";
+        }
+
+        private static string NormaliseHeader(string value)
+        {
+            string name = value.Trim().TrimStart('\uFEFF')
+                .Replace(" ", "")
+                .Replace("_", "")
+                .ToLowerInvariant();
+
+            // "Year" is accepted as an explicit alias.
+            return name == "year" ? "yearpublished" : name;
+        }
+
+        private static bool IsSupportedHeader(string name)
+        {
+            return name == "title" ||
+                   name == "author" ||
+                   name == "totalcopies" ||
+                   name == "isbn" ||
+                   name == "yearpublished" ||
+                   name == "edition";
+        }
+
+        private static bool IsBlankRecord(string[] record)
+        {
+            foreach (string value in record)
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void ShowValidationErrors(List<string> errors)
+        {
+            lblError.Text =
+                "Validation failed. No books were imported.";
+
+            StringBuilder html = new StringBuilder();
+            html.Append("<ul>");
+
+            int shown = Math.Min(errors.Count, 50);
+
+            for (int i = 0; i < shown; i++)
+            {
+                html.Append("<li>");
+                html.Append(HttpUtility.HtmlEncode(errors[i]));
+                html.Append("</li>");
+            }
+
+            html.Append("</ul>");
+
+            if (errors.Count > shown)
+            {
+                html.Append("<p>");
+                html.Append(errors.Count - shown);
+                html.Append(" additional error(s). Correct the file and retry.</p>");
+            }
+
+            litSkipped.Text = html.ToString();
+            pnlSkipped.Visible = true;
+        }
+
+        private static List<string[]> ParseCsv(string text)
+        {
+            List<string[]> records = new List<string[]>();
+            List<string> fields = new List<string>();
+            StringBuilder field = new StringBuilder();
+
+            bool quoted = false;
+            bool closedQuote = false;
+
+            // Ignore a UTF-8 BOM at the start of the file.
+            int first = text.Length > 0 && text[0] == '\uFEFF' ? 1 : 0;
+
+            for (int i = first; i < text.Length; i++)
+            {
+                char c = text[i];
+
+                if (quoted)
+                {
+                    if (c == '"')
+                    {
+                        if (i + 1 < text.Length && text[i + 1] == '"')
+                        {
+                            field.Append('"');
+                            i++;
+                        }
+                        else
+                        {
+                            quoted = false;
+                            closedQuote = true;
+                        }
+                    }
+                    else
+                    {
+                        field.Append(c);
+                    }
+
+                    continue;
                 }
 
-                litSkipped.Text = sb.ToString();
-                pnlSkipped.Visible = true;
+                if (c == ',')
+                {
+                    fields.Add(field.ToString());
+                    field.Clear();
+                    closedQuote = false;
+                    continue;
+                }
+
+                if (c == '\r' || c == '\n')
+                {
+                    fields.Add(field.ToString());
+                    records.Add(fields.ToArray());
+
+                    fields.Clear();
+                    field.Clear();
+                    closedQuote = false;
+
+                    if (c == '\r' &&
+                        i + 1 < text.Length &&
+                        text[i + 1] == '\n')
+                    {
+                        i++;
+                    }
+
+                    continue;
+                }
+
+                if (closedQuote)
+                {
+                    if (c == ' ' || c == '\t')
+                    {
+                        continue;
+                    }
+
+                    throw new FormatException(
+                        "CSV record " + (records.Count + 1) +
+                        " has unexpected text after a closing quote.");
+                }
+
+                if (c == '"')
+                {
+                    if (field.Length != 0)
+                    {
+                        throw new FormatException(
+                            "CSV record " + (records.Count + 1) +
+                            " has a quote inside an unquoted field. " +
+                            "Quote the whole field and double any quotes inside it.");
+                    }
+
+                    quoted = true;
+                    continue;
+                }
+
+                field.Append(c);
             }
+
+            if (quoted)
+            {
+                throw new FormatException(
+                    "The CSV contains an unfinished quoted field.");
+            }
+
+            if (field.Length > 0 || fields.Count > 0 || closedQuote)
+            {
+                fields.Add(field.ToString());
+                records.Add(fields.ToArray());
+            }
+
+            return records;
         }
     }
 }

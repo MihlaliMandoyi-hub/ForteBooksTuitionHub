@@ -51,6 +51,15 @@ namespace ForteBooksTuitionHub
         protected global::System.Web.UI.WebControls.Label lblSessionDate;
 
         /// <summary>
+        /// lblRatingCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRatingCaption;
+
+        /// <summary>
         /// ddlRating control.
         /// </summary>
         /// <remarks>
@@ -58,6 +67,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlRating;
+
+        /// <summary>
+        /// lblCommentCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCommentCaption;
 
         /// <summary>
         /// txtComment control.

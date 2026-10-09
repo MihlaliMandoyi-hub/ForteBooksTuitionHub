@@ -15,6 +15,24 @@ namespace ForteBooksTuitionHub
     {
 
         /// <summary>
+        /// pnlCatalogueSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCatalogueSearch;
+
+        /// <summary>
+        /// lblSearchCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSearchCaption;
+
+        /// <summary>
         /// txtSearch control.
         /// </summary>
         /// <remarks>
@@ -22,6 +40,15 @@ namespace ForteBooksTuitionHub
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSearch;
+
+        /// <summary>
+        /// lblSortCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSortCaption;
 
         /// <summary>
         /// ddlSort control.
